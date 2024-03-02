@@ -114,7 +114,7 @@ class SectionColumn(models.Model):
     )
 
     class Meta:
-        ordering = ("section", "order")
+        ordering = ("order", "section", "order")
 
     def __str__(self):
         return "{} on {}".format(self.column, self.section)
