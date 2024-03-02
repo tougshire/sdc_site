@@ -119,7 +119,9 @@ class Article(models.Model):
         blank=True,
         help_text="The page to which this column belongs",
     )
-    name = models.CharField("name", max_length=100, help_text="The name of the column.")
+    title = models.CharField(
+        "name", max_length=100, help_text="The name of the column."
+    )
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
@@ -140,7 +142,7 @@ class Article(models.Model):
         return self.name
 
     class Meta:
-        ordering = ("order", "name")
+        ordering = ("order", "title")
 
 
 class Tagory(models.Model):
