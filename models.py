@@ -1,3 +1,4 @@
+from datetime import date
 from django.db import models
 
 
@@ -27,6 +28,7 @@ class Page(models.Model):
     )
     order = models.IntegerField(
         "order",
+        default=0,
         help_text="The order that the page would appear in a list",
     )
 
@@ -52,7 +54,9 @@ class Section(models.Model):
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
     order = models.IntegerField(
-        "order", help_text="The order that the section should appear on the page"
+        "order",
+        default=0,
+        help_text="The order that the section should appear on the page",
     )
     content_before = models.TextField(
         blank=True,
@@ -75,9 +79,6 @@ class Column(models.Model):
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
-    order = models.IntegerField(
-        "order", help_text="The order that the column should appear in the section"
-    )
     width = models.IntegerField(
         "width",
         default=1,
@@ -92,7 +93,7 @@ class Column(models.Model):
         return self.name
 
     class Meta:
-        ordering = ("order", "name")
+        ordering = ("name",)
 
 
 class SectionColumn(models.Model):
@@ -106,6 +107,14 @@ class SectionColumn(models.Model):
         on_delete=models.CASCADE,
         help_text="The column which appears in the section",
     )
+    order = models.IntegerField(
+        "order",
+        default=0,
+        help_text="The order that the section would appear on the page",
+    )
+
+    class Meta:
+        ordering = ("section", "order")
 
     def __str__(self):
         return "{} on {}".format(self.column, self.section)
@@ -130,19 +139,30 @@ class Article(models.Model):
         help_text="The content of the article.",
     )
     order = models.IntegerField(
-        "order", help_text="The order that the column should appear on the page"
+        "order",
+        default=0,
+        help_text="The order that the column should appear on the page",
     )
     width = models.IntegerField(
         "width",
         default=1,
         help_text="The width of the column in multiples of how big it is compared to the narrowest column",
     )
+    when_created = models.DateTimeField(
+        "created", auto_now_add=True, help_text="The date the article was created"
+    )
+    when_updated = models.DateTimeField(
+        "updated", auto_now=True, help_text="The date the article was updated"
+    )
+    date_for_dateline = models.DateField(
+        "date", default=date.today, help_text="The displayed date of the article"
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ("order", "title")
+        ordering = ("-date_for_dateline", "-when_updated")
 
 
 class Tagory(models.Model):
@@ -150,15 +170,12 @@ class Tagory(models.Model):
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
-    order = models.IntegerField(
-        "order", help_text="The order that the column should appear on the page"
-    )
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ("order", "name")
+        ordering = ("name",)
 
 
 class ArticleTagory(models.Model):
@@ -205,6 +222,10 @@ class Menuitem(models.Model):
     )
     label = models.CharField(
         "label", max_length=30, blank=True, help_text="The label of this menu item"
+    )
+    order = models.IntegerField(
+        "order",
+        help_text="The order that the item would appear in a menu",
     )
 
     def __str__(self):
