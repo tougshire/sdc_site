@@ -1,0 +1,97 @@
+#head {
+    width:80%;
+    margin: 0 auto;
+    text-align:center;
+}
+#footer {
+    text-align:center;
+}
+
+#menubar a {
+    display:block;
+    text-decoration: none;
+}
+.section {
+    width:90%;
+    margin:0 auto;
+    text-align:center;
+}
+
+.content-note {
+    text-align:left;
+    font-style:italic;
+    font-size:.8em;
+}
+
+.epigraph {
+    width:60%;
+    margin:0 auto;
+    font-size:1.1em;
+}
+
+.epigraph footer {
+    width:70%;
+    margin:0 0 0 29%;
+    text-align: right;
+}
+
+.epigraph footer::before {
+    content: '-';
+}
+
+
+iframe {
+    border:none;
+}
+
+@media only screen and (min-width: 600px) {
+
+    #menubar {
+        width:100%;
+        display:flex;
+        column-gap: 2%;
+        justify-content: space-evenly;
+        text-align: center;
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        margin: auto auto 1ex auto;
+        padding: .5ex .5ex;
+    }
+
+    div.columns{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content: center;
+
+    }
+
+    div.column-wrapper {
+        border-left:1px solid;
+    }
+
+    div.column-wrapper:first-child {
+        border-left: none;
+    }
+
+    div.column {
+        width:90%;
+        margin: 0 auto;
+    }
+
+}
+@media only screen and (max-width: 600px) {
+
+    #menubar {
+        width:100%;
+        display:block;
+        text-align: center;
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        margin: auto auto 1ex auto;
+        padding: .5ex .5ex;
+    }
+
+    div.columns{
+        display:block;
+    }
+}
