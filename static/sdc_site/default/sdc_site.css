@@ -1,3 +1,6 @@
+body {
+    font-family:Arial, Helvetica, sans-serif
+}
 #head {
     width:80%;
     margin: 0 auto;
@@ -26,7 +29,7 @@
 .epigraph {
     width:60%;
     margin:0 auto;
-    font-size:1.1em;
+    font-size:1.2em;
 }
 
 .epigraph footer {
