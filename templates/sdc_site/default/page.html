@@ -7,15 +7,17 @@
       {{ section.content_before|safe }}
       </div>
     {% endif %}
+    {% if section.sectioncolumn_set.all %}
     <div class="columns">
       {% for sectioncolumn in section.sectioncolumn_set.all %}
       <div class="column-wrapper" data-width="{{ sectioncolumn.column.width }}">
-        <div class="column">
+        <div class="column" id="column_{{ sectioncolumn.pk }}">
           {{ sectioncolumn.column.content|safe }}
         </div>
       </div>
       {% endfor %}
     </div>
+    {% endif %}
     {% if section.content_after|safe %}
       <div class="section_content">
       {{ section.content_after }}
