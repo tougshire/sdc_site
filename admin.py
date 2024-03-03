@@ -19,6 +19,11 @@ class MenuitemInline(admin.TabularInline):
     extra = 0
 
 
+class SectionInline(admin.TabularInline):
+    model = Section
+    extra = 0
+
+
 class SectionColumnInline(admin.TabularInline):
     model = SectionColumn
     extra = 0
@@ -59,6 +64,9 @@ admin.site.register(MenuPage)
 
 class PageAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+    inlines = [
+        SectionInline,
+    ]
 
 
 admin.site.register(Page, PageAdmin)
