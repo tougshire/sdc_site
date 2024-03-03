@@ -14,22 +14,43 @@ from .models import (
 )
 
 
+class MenuitemInline(admin.TabularInline):
+    model = Menuitem
+    extra = 0
+
+
+class SectionColumnInline(admin.TabularInline):
+    model = SectionColumn
+    extra = 0
+
+
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
-admin.site.register(Article)
+admin.site.register(Article, ArticleAdmin)
+
 
 admin.site.register(ArticleTagory)
 
 
 class ColumnAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [
+        SectionColumnInline,
+    ]
 
 
 admin.site.register(Column, ColumnAdmin)
 
-admin.site.register(Menu)
+
+class MenuAdmin(admin.ModelAdmin):
+    inlines = [
+        MenuitemInline,
+    ]
+
+
+admin.site.register(Menu, MenuAdmin)
 
 admin.site.register(Menuitem)
 
@@ -45,6 +66,9 @@ admin.site.register(Page, PageAdmin)
 
 class SectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [
+        SectionColumnInline,
+    ]
 
 
 admin.site.register(Section, SectionAdmin)
