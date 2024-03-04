@@ -12,7 +12,18 @@
       {% for sectioncolumn in section.sectioncolumn_set.all %}
       <div class="column-wrapper" data-width="{{ sectioncolumn.column.width }}">
         <div class="column" id="column_{{ sectioncolumn.pk }}">
-          {{ sectioncolumn.column.content|safe }}
+          {% if section.column.content %}
+            {{ sectioncolumn.column.content|safe }}
+          {% endif %}
+          {% for segment in sectioncolumn.column.segment_set.all %}
+            <div class="segment" id="segment_{{ segment.pk }}">
+              <h2>{{ segment.title }}</h2>
+              <div class="segment-content">
+                {{ segment.content|safe }}
+              </div>
+            </div>
+          {% endfor %}
+
         </div>
       </div>
       {% endfor %}

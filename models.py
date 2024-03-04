@@ -96,6 +96,28 @@ class Column(models.Model):
         ordering = ("name",)
 
 
+class Segment(models.Model):
+    column = models.ForeignKey(Column, blank=True, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(
+        "name", max_length=100, help_text="The name of the column."
+    )
+    content = models.TextField(
+        blank=True,
+        help_text="The content of the column.  Expected to usually include an iframe or series of iframes",
+    )
+    order = models.IntegerField(
+        "order",
+        default=0,
+        help_text="The order that the segment would appear in the column",
+    )
+
+    def __str__(self):
+        return "{}: {}".format(self.column, self.title)
+
+    class Meta:
+        ordering = ("column", "order", "title")
+
+
 class SectionColumn(models.Model):
     section = models.ForeignKey(
         Section,

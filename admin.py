@@ -7,6 +7,7 @@ from .models import (
     Menuitem,
     MenuPage,
     Page,
+    Segment,
     Section,
     SectionColumn,
     Site,
@@ -29,6 +30,11 @@ class SectionColumnInline(admin.TabularInline):
     extra = 0
 
 
+class SegmentInline(admin.TabularInline):
+    model = Segment
+    extra = 0
+
+
 class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
@@ -42,6 +48,7 @@ admin.site.register(ArticleTagory)
 class ColumnAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
+        SegmentInline,
         SectionColumnInline,
     ]
 
@@ -82,6 +89,9 @@ class SectionAdmin(admin.ModelAdmin):
 admin.site.register(Section, SectionAdmin)
 
 admin.site.register(SectionColumn)
+
+
+admin.site.register(Segment)
 
 
 class SiteAdmin(admin.ModelAdmin):
