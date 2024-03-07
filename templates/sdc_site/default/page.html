@@ -4,6 +4,9 @@
 {% block content %}
 {% for section in page.section_set.all %}
   <div class="section">
+    {% if section.name and section.show_title %}
+      <h2>{{ section.name }}</h2>
+    {% endif %}
     {% if section.content_before_cases %}
       <div class="section_content">
       {{ section.content_before_cases|safe }}
@@ -20,7 +23,7 @@
             {% endif %}
             {% for casearticle in case.casearticle_set.all %}
               <div class="article" id="casearticle.article_{{ article.pk }}">
-                <h2>{{ casearticle.article.title }}</h2>
+                <h3>{{ casearticle.article.title }}</h3>
                 <div class="{{ casearticle.article.content_classes }}" >
                   {{ casearticle.article.content|render_with_format:casearticle.article.content_format|safe }}
                   {% if casearticle.article.iframe_src %}
@@ -32,7 +35,7 @@
             {% if case.content_below_articles %}
               <div class="case-content">
                 {{ case.content_below_articles|safe }}
-              </div>`
+              </div>
             {% endif %}
           </div>
         </div>

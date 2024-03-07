@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def home_page(request):
     try:
-        page = Page.objects.first()
+        page = Page.objects.filter(is_home=True).first()
         if page.slug:
             return HttpResponseRedirect(reverse("sdc_site:page", args=[page.slug]))
         else:
@@ -23,8 +23,6 @@ def home_page(request):
     except Exception as e:
         logger.error(e)
         return HttpResponse("Error retrieving the page")
-
-
 
 
 class PageView(DetailView):
