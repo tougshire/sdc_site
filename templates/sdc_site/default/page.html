@@ -9,38 +9,34 @@
       {{ section.content_before|safe }}
       </div>
     {% endif %}
-    {% if section.sectioncase_set.all %}
     <div class="cases">
-      {% for sectioncase in section.sectioncase_set.all %}
-      <div class="case-wrapper" data-width="{{ sectioncase.case.width }}">
-        <div class="case" id="case_{{ sectioncase.pk }}">
-          {% if section.case.content_above_articles %}
-            <div class="case-content">
-            {{ sectioncase.case.content_above_articles|safe }}
-            </div>
-          {% endif %}
-          {% for casearticle in sectioncase.case.casearticle_set.all %}
-            {}
-
-
-            <div class="article" id="article_{{ article.pk }}">
-              <h2>{{ article.title }}</h2>
-              <div class="{{ article.content_classes }}" >
-                {{ article.content|render_with_format:article.content_format|safe }}
-                {% if article.iframe_src %}
-                  <iframe src="{% get_from_iframe_src article.iframe_src 'src' %}" height="{% get_from_iframe_src article.iframe_src 'height' %}"></iframe>
-                {% endif %}
-                </div>
-            </div>
-          {% endfor %}
-          {% if section.case.content_below_articles %}
-            <div class="case-content">
-            {{ sectioncase.case.content_below_articles|safe }}
-            </div>
-          {% endif %}
-
+      {% for case in section.case_set.all %}
+        <div class="case-wrapper">
+          <div class="case" id="case_{{ case.pk }}">
+            {% if case.content_above_articles %}
+              <div class="case-content">
+                {{ sectioncase.case.content_above_articles|safe }}
+              </div>
+            {% endif %}
+            {% for casearticle in sectioncase.case.casearticle_set.all %}
+              <div class="article" id="casearticle.article_{{ article.pk }}">
+                <h2>{{ casearticle.article.title }}</h2>
+                <div class="{{ casearticle.article.content_classes }}" >
+                  {{ casearticle.article.content|render_with_format:casearticle.article.content_format|safe }}
+                  {% if casearticle.article.iframe_src %}
+                    <iframe src="{% get_from_iframe_src casearticle.article.iframe_src 'src' %}" height="{% get_from_iframe_src casearticle.article.iframe_src 'height' %}"></iframe>
+                  {% endif %}
+                  </div>
+              </div>
+            {% endfor %}
+            {% if case.content_below_articles %}
+              <div class="case-content">
+                {{ case.content_below_articles|safe }}
+              </div>
+            {% endif %}
+          </div>
         </div>
-      </div>
+
       {% endfor %}
     </div>
     {% endif %}
@@ -59,17 +55,17 @@
       for(var section of sections) {
         var cases = section.getElementsByClassName("case-wrapper")
         var total_widths = 0
-        for(var case of cases) {
+        for(var ccase of cases) {
           total_widths += parseInt(case.dataset["width"])
         }
-        for(var case of cases) {
-          case.style.width = (( 80/total_widths) * case.dataset["width"] ) + "%"
+        for(var ccase of cases) {
+          ccase.style.width = (( 80/total_widths) * ccase.dataset["width"] ) + "%"
         }
       }
     } else {
       var cases = document.getElementsByClassName("case-wrapper")
-      for(var case of cases) {
-        case.style.width="90%"
+      for(var ccase of cases) {
+        ccase.style.width="90%"
       }
     }
   }
