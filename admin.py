@@ -45,6 +45,8 @@ class CaseAdmin(admin.ModelAdmin):
     ]
 
 
+admin.site.register(CaseArticle)
+
 admin.site.register(Case, CaseAdmin)
 
 
