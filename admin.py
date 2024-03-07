@@ -1,7 +1,5 @@
 from django.contrib import admin
 from .models import (
-    Article,
-    ArticleTagory,
     Column,
     Menu,
     Menuitem,
@@ -11,7 +9,7 @@ from .models import (
     Section,
     SectionColumn,
     Site,
-    Tagory,
+    Tag,
 )
 
 
@@ -33,16 +31,6 @@ class SectionColumnInline(admin.TabularInline):
 class SegmentInline(admin.TabularInline):
     model = Segment
     extra = 0
-
-
-class ArticleAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("title",)}
-
-
-admin.site.register(Article, ArticleAdmin)
-
-
-admin.site.register(ArticleTagory)
 
 
 class ColumnAdmin(admin.ModelAdmin):
@@ -91,7 +79,11 @@ admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionColumn)
 
 
-admin.site.register(Segment)
+class SegmentAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+
+admin.site.register(Segment, SegmentAdmin)
 
 
 class SiteAdmin(admin.ModelAdmin):
@@ -99,10 +91,3 @@ class SiteAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Site, SiteAdmin)
-
-
-class TagoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
-
-
-admin.site.register(Tagory)

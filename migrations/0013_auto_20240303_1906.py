@@ -15,7 +15,7 @@ def remove_h2(apps, schema_editor):
                 ).strip()
                 segment.save()
             segment.column.content = ""
-            segment.column.content.save()
+            segment.column.save()
 
 
 class Migration(migrations.Migration):
@@ -24,4 +24,6 @@ class Migration(migrations.Migration):
         ("sdc_site", "0012_auto_20240303_1729"),
     ]
 
-    operations = []
+    operations = [
+        migrations.RunPython(remove_h2),
+    ]

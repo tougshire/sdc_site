@@ -86,7 +86,7 @@ class Column(models.Model):
     )
     content = models.TextField(
         blank=True,
-        help_text="The content of the column.  Expected to usually include an iframe or series of iframes",
+        help_text="The content of the column.  ",
     )
 
     def __str__(self):
@@ -99,7 +99,30 @@ class Column(models.Model):
 class Segment(models.Model):
     column = models.ForeignKey(Column, blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(
-        "name", max_length=100, help_text="The name of the column."
+        "title", max_length=100, help_text="The name of the segment."
+    )
+    iframe_src = models.CharField(
+        "iframe source",
+        max_length=255,
+        blank=True,
+        help_text="If an iframe is to be displayed, the URL of an approved iframe source (must be listed in settings), optionally followed by a css height value",
+    )
+    content_classes = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        default="segment-content uldoc",
+        help_text="HTML classes to be applied to the content (default: segment-content uldoc)",
+    )
+    content_format = models.CharField(
+        max_length=12,
+        choices=(
+            ("markdown", "Markdown"),
+            ("html", "HTML"),
+            ("plaintext", "Plain Text"),
+        ),
+        default="markdown",
+        help_text="The format used for rendering the content",
     )
     content = models.TextField(
         blank=True,
@@ -109,6 +132,12 @@ class Segment(models.Model):
         "order",
         default=0,
         help_text="The order that the segment would appear in the column",
+    )
+    slug = models.SlugField(
+        "slug",
+        unique=True,
+        max_length=100,
+        help_text="The slug for use in URLs",
     )
 
     def __str__(self):
@@ -142,52 +171,7 @@ class SectionColumn(models.Model):
         return "{} on {}".format(self.column, self.section)
 
 
-class Article(models.Model):
-    page = models.ForeignKey(
-        Page,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="The page to which this column belongs",
-    )
-    title = models.CharField(
-        "name", max_length=100, help_text="The name of the column."
-    )
-    slug = models.SlugField(
-        "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
-    )
-    content = models.TextField(
-        blank=True,
-        help_text="The content of the article.",
-    )
-    order = models.IntegerField(
-        "order",
-        default=0,
-        help_text="The order that the column should appear on the page",
-    )
-    width = models.IntegerField(
-        "width",
-        default=1,
-        help_text="The width of the column in multiples of how big it is compared to the narrowest column",
-    )
-    when_created = models.DateTimeField(
-        "created", auto_now_add=True, help_text="The date the article was created"
-    )
-    when_updated = models.DateTimeField(
-        "updated", auto_now=True, help_text="The date the article was updated"
-    )
-    date_for_dateline = models.DateField(
-        "date", default=date.today, help_text="The displayed date of the article"
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ("-date_for_dateline", "-when_updated")
-
-
-class Tagory(models.Model):
+class Tag(models.Model):
     name = models.CharField("name", max_length=100, help_text="The name of the tag.")
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
@@ -198,25 +182,6 @@ class Tagory(models.Model):
 
     class Meta:
         ordering = ("name",)
-
-
-class ArticleTagory(models.Model):
-    article = models.ForeignKey(
-        Article,
-        on_delete=models.CASCADE,
-        help_text="The article to which the tag belongs",
-    )
-    tagory = models.ForeignKey(
-        Tagory,
-        on_delete=models.CASCADE,
-        help_text="The tag to which the article belongs",
-    )
-
-    def __str__(self):
-        return "{} tagged {}".format(self.article, self.tagory)
-
-    class Meta:
-        ordering = ("article", "tagory")
 
 
 class Menu(models.Model):

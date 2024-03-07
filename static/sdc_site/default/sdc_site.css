@@ -17,7 +17,7 @@ body {
 .section {
     width:90%;
     margin:0 auto;
-    text-align:center;
+    overflow-wrap:break-word;
 }
 
 .content-note {
@@ -42,8 +42,26 @@ body {
     content: '-';
 }
 
+.uldoc > ul > li {
+    font-weight: bold;
+    list-style-type:none;
+}
+
+.uldoc > ul > li > ul > li {
+    font-weight:normal;
+    list-style-type:none;
+}
+
+.uldoc > ul > li li li {
+    list-style-type:disc;
+}
+
+.uldoc li:last-child {
+    margin-bottom:.5em;
+}
 
 iframe {
+    text-align:center;
     border:none;
 }
 

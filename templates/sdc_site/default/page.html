@@ -1,4 +1,6 @@
 {% extends './_base.html'%}
+{% load touglates_tags %}
+{% load sdc_site_extras %}
 {% block content %}
 {% for section in page.section_set.all %}
   <div class="section">
@@ -18,9 +20,12 @@
           {% for segment in sectioncolumn.column.segment_set.all %}
             <div class="segment" id="segment_{{ segment.pk }}">
               <h2>{{ segment.title }}</h2>
-              <div class="segment-content">
-                {{ segment.content|safe }}
-              </div>
+              <div class="{{ segment.content_classes }}" >
+                {{ segment.content|render_with_format:segment.content_format|safe }}
+                {% if segment.iframe_src %}
+                  <iframe src="{% get_from_iframe_src segment.iframe_src 'src' %}" height="{% get_from_iframe_src segment.iframe_src 'height' %}"></iframe>
+                {% endif %}
+                </div>
             </div>
           {% endfor %}
 
