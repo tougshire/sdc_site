@@ -45,7 +45,7 @@ class Section(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        help_text="The page to which this case belongs",
+        help_text="The page to which this section belongs",
     )
     name = models.CharField(
         "name", max_length=100, help_text="The name of the section."
