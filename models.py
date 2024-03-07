@@ -58,13 +58,13 @@ class Section(models.Model):
         default=0,
         help_text="The order that the section should appear on the page",
     )
-    content_before = models.TextField(
+    content_before_cases = models.TextField(
         blank=True,
-        help_text="content to be displayed above the cases",
+        help_text="content to be displayed before the cases",
     )
-    content_after = models.TextField(
+    content_after_cases = models.TextField(
         blank=True,
-        help_text="content to be displayed below the cases",
+        help_text="content to be displayed after the cases",
     )
 
     def __str__(self):
@@ -91,16 +91,16 @@ class Case(models.Model):
         default=1,
         help_text="The width of the case in multiples of how big it is compared to the narrowest case",
     )
-    content_above_articles = models.CharField(
+    content_before_articles = models.CharField(
         max_length=255,
         blank=True,
-        help_text="The content of the case above any included articles",
+        help_text="The content of the case before any included articles",
     )
 
-    content_below_articles = models.CharField(
+    content_after_articles = models.CharField(
         max_length=255,
         blank=True,
-        help_text="The content of the case below any included articles",
+        help_text="The content of the case after any included articles",
     )
 
     def __str__(self):
@@ -139,7 +139,7 @@ class Article(models.Model):
     )
     content = models.TextField(
         blank=True,
-        help_text="The content of the case.  Expected to usually include an iframe or series of iframes",
+        help_text="The content of the article.  Expected to usually include an iframe or series of iframes",
     )
     order = models.IntegerField(
         "order",
@@ -154,7 +154,7 @@ class Article(models.Model):
     )
 
     def __str__(self):
-        return "{}: {}".format(self.case, self.title)
+        return "{}: {}".format(self.title)
 
     class Meta:
         ordering = ("order", "title")
