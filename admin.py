@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from .models import (
     Article,
@@ -89,11 +90,37 @@ class SectionAdmin(admin.ModelAdmin):
 admin.site.register(Section, SectionAdmin)
 
 
+class ArticleModelForm(forms.ModelForm):
+    create_case_to_section = forms.ModelChoiceField(
+        Section.objects.all(),
+        required=False,
+        help_text="If selected, create a new case for this article in the selected section",
+    )
+
+
 class ArticleAdmin(admin.ModelAdmin):
+    form = ArticleModelForm
     prepopulated_fields = {"slug": ("title",)}
     inlines = [
         CaseArticleInline,
     ]
+
+    def save_model(self, request, obj, form, change):
+        print("tp2437625", obj, obj.pk)
+
+        saved = super().save_model(request, obj, form, change)
+
+        print("tp2437626", obj, obj.pk)
+        if form.cleaned_data["create_case_to_section"]:
+            case = Case.objects.create(
+                name=obj.title, section=form.cleaned_data["create_case_to_section"]
+            )
+            CaseArticle.objects.create(
+                case=case,
+                article=obj,
+            )
+
+        return saved
 
 
 admin.site.register(Article, ArticleAdmin)
