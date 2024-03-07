@@ -48,7 +48,12 @@ class Section(models.Model):
         help_text="The page to which this section belongs",
     )
     name = models.CharField(
-        "name", max_length=100, help_text="The name of the section."
+        "name", max_length=100, help_text="The title of the section."
+    )
+    show_title = models.BooleanField(
+        "show title",
+        default=True,
+        help_text="Show the title of the section ",
     )
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
@@ -95,12 +100,13 @@ class Case(models.Model):
         "show article meta",
         max_length=2,
         choices=[
-            ("ad", "Author and Date"),
+            ("00", "None"),
             ("a0", "Author"),
             ("0d", "Publish Date"),
+            ("ad", "Author and Date"),
         ],
-        default="ad",
-        help_text="What article information should be shown for aticles in cases",
+        default="00",
+        help_text="What article meta information should be shown for aticles in cases",
     )
     content_before_articles = models.CharField(
         max_length=255,
