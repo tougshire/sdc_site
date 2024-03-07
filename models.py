@@ -91,6 +91,17 @@ class Case(models.Model):
         default=1,
         help_text="The width of the case in multiples of how big it is compared to the narrowest case",
     )
+    show_article_meta = models.CharField(
+        "show article meta",
+        max_length=2,
+        choices=[
+            ("ad", "Author and Date"),
+            ("a0", "Author"),
+            ("0d", "Publish Date"),
+        ],
+        default="ad",
+        help_text="What article information should be shown for aticles in cases",
+    )
     content_before_articles = models.CharField(
         max_length=255,
         blank=True,
@@ -102,12 +113,20 @@ class Case(models.Model):
         blank=True,
         help_text="The content of the case after any included articles",
     )
+    order = models.IntegerField(
+        "order",
+        default=0,
+        help_text="A number used for ordering of the case in a section",
+    )
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ("name",)
+        ordering = (
+            "order",
+            "name",
+        )
 
 
 class Article(models.Model):
@@ -146,6 +165,22 @@ class Article(models.Model):
         default=0,
         help_text="The order that the article would appear in the case",
     )
+    created_datetime = models.DateTimeField(
+        "date/time created",
+        auto_now_add=True,
+        help_text="The date/time that this article was created",
+    )
+    updated_datetime = models.DateTimeField(
+        "date/time updated",
+        auto_now=True,
+        help_text="The date/time that this article was updated",
+    )
+    publish_date = models.DateField(
+        "published",
+        default=date.today,
+        help_text="The published date, which can be filled in by the editors.  Used for sorting when more than one article is in a case.",
+    )
+
     slug = models.SlugField(
         "slug",
         unique=True,
@@ -157,7 +192,7 @@ class Article(models.Model):
         return self.title
 
     class Meta:
-        ordering = ("order", "title")
+        ordering = ("-publish_date", "title")
 
 
 class CaseArticle(models.Model):

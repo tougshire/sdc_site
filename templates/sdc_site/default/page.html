@@ -11,14 +11,14 @@
     {% endif %}
     <div class="cases">
       {% for case in section.case_set.all %}
-        <div class="case-wrapper">
+        <div class="case-wrapper" data-width="{{ case.width }}">
           <div class="case" id="case_{{ case.pk }}">
             {% if case.content_before_articles %}
               <div class="case-content">
-                {{ sectioncase.case.content_before_articles|safe }}
+                {{ case.content_before_articles|safe }}
               </div>
             {% endif %}
-            {% for casearticle in sectioncase.case.casearticle_set.all %}
+            {% for casearticle in case.casearticle_set.all %}
               <div class="article" id="casearticle.article_{{ article.pk }}">
                 <h2>{{ casearticle.article.title }}</h2>
                 <div class="{{ casearticle.article.content_classes }}" >
@@ -39,7 +39,6 @@
 
       {% endfor %}
     </div>
-    {% endif %}
     {% if section.content_below_cases %}
       <div class="section_content">
       {{ section.content_below_cases|safe }}
@@ -47,6 +46,7 @@
     {% endif %}
 
   </div>
+
 {% endfor %}
 <script>
   function resizeCases() {
@@ -56,7 +56,7 @@
         var cases = section.getElementsByClassName("case-wrapper")
         var total_widths = 0
         for(var ccase of cases) {
-          total_widths += parseInt(case.dataset["width"])
+          total_widths += parseInt(ccase.dataset["width"])
         }
         for(var ccase of cases) {
           ccase.style.width = (( 80/total_widths) * ccase.dataset["width"] ) + "%"
