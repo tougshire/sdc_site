@@ -19,7 +19,10 @@
             {{ sectioncase.case.content_above_articles|safe }}
             </div>
           {% endif %}
-          {% for article in sectioncase.case.article_set.all %}
+          {% for casearticle in sectioncase.case.casearticle_set.all %}
+            {}
+
+
             <div class="article" id="article_{{ article.pk }}">
               <h2>{{ article.title }}</h2>
               <div class="{{ article.content_classes }}" >

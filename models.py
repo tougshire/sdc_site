@@ -75,6 +75,13 @@ class Section(models.Model):
 
 
 class Case(models.Model):
+    section = models.ForeignKey(
+        Section,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        help_text="The section to which the case belongs",
+    )
     name = models.CharField("name", max_length=100, help_text="The name of the case.")
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
@@ -104,7 +111,6 @@ class Case(models.Model):
 
 
 class Article(models.Model):
-    case = models.ForeignKey(Case, blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(
         "title", max_length=100, help_text="The name of the article."
     )
@@ -151,31 +157,14 @@ class Article(models.Model):
         return "{}: {}".format(self.case, self.title)
 
     class Meta:
-        ordering = ("case", "order", "title")
+        ordering = ("order", "title")
 
 
-class SectionCase(models.Model):
-    section = models.ForeignKey(
-        Section,
-        on_delete=models.CASCADE,
-        help_text="The section to which the case belongs",
+class CaseArticle(models.Model):
+    case = models.ForeignKey(Case, blank=True, null=True, on_delete=models.SET_NULL)
+    article = models.ForeignKey(
+        Article, blank=True, null=True, on_delete=models.SET_NULL
     )
-    case = models.ForeignKey(
-        Case,
-        on_delete=models.CASCADE,
-        help_text="The case which appears in the section",
-    )
-    order = models.IntegerField(
-        "order",
-        default=0,
-        help_text="The order that the section would appear on the page",
-    )
-
-    class Meta:
-        ordering = ("order", "section", "order")
-
-    def __str__(self):
-        return "{} on {}".format(self.case, self.section)
 
 
 class Tag(models.Model):

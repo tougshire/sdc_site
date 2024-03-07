@@ -1,16 +1,26 @@
 from django.contrib import admin
 from .models import (
     Article,
+    CaseArticle,
     Case,
     Menu,
     Menuitem,
     MenuPage,
     Page,
     Section,
-    SectionCase,
     Site,
     Tag,
 )
+
+
+class CaseArticleInline(admin.TabularInline):
+    model = CaseArticle
+    extra = 0
+
+
+class CaseInline(admin.TabularInline):
+    model = Case
+    extra = 0
 
 
 class MenuitemInline(admin.TabularInline):
@@ -23,11 +33,6 @@ class SectionInline(admin.TabularInline):
     extra = 0
 
 
-class SectionCaseInline(admin.TabularInline):
-    model = SectionCase
-    extra = 0
-
-
 class ArticleInline(admin.TabularInline):
     model = Article
     extra = 0
@@ -36,8 +41,7 @@ class ArticleInline(admin.TabularInline):
 class CaseAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
-        ArticleInline,
-        SectionCaseInline,
+        CaseArticleInline,
     ]
 
 
@@ -70,13 +74,11 @@ admin.site.register(Page, PageAdmin)
 class SectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
-        SectionCaseInline,
+        CaseInline,
     ]
 
 
 admin.site.register(Section, SectionAdmin)
-
-admin.site.register(SectionCase)
 
 
 class ArticleAdmin(admin.ModelAdmin):
