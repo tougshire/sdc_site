@@ -23,6 +23,9 @@ class Page(models.Model):
     title = models.CharField(
         "title", max_length=100, help_text="The title of the page."
     )
+    is_home = models.BooleanField(
+        "is home page", default=False, help_text="If this is the home page"
+    )
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
@@ -53,7 +56,7 @@ class Section(models.Model):
     show_title = models.BooleanField(
         "show title",
         default=True,
-        help_text="Show the title of the section ",
+        help_text="Show the name of the section as a title",
     )
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
@@ -73,10 +76,10 @@ class Section(models.Model):
     )
 
     def __str__(self):
-        return "{}:{}".format(self.page, self.name)
+        return '"{}" on page "{}"'.format(self.name, self.page)
 
     class Meta:
-        ordering = ("order", "name")
+        ordering = ("page", "order", "name")
 
 
 class Case(models.Model):
@@ -126,10 +129,11 @@ class Case(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return '"{}" in section "{}"'.format(self.name, self.section)
 
     class Meta:
         ordering = (
+            "section",
             "order",
             "name",
         )
@@ -207,6 +211,12 @@ class CaseArticle(models.Model):
         Article, blank=True, null=True, on_delete=models.SET_NULL
     )
 
+    def __str__(self):
+        return '"{}" in case "{}"'.format(self.article, self.case)
+
+    class Meta:
+        ordering = ("case", "article")
+
 
 class Tag(models.Model):
     name = models.CharField("name", max_length=100, help_text="The name of the tag.")
@@ -269,4 +279,4 @@ class MenuPage(models.Model):
     )
 
     def __str__(self):
-        return "{} on {}".format(self.menu, self.page)
+        return '"{}" on page "{}"'.format(self.menu, self.page)
