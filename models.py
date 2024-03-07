@@ -45,7 +45,7 @@ class Section(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        help_text="The page to which this column belongs",
+        help_text="The page to which this case belongs",
     )
     name = models.CharField(
         "name", max_length=100, help_text="The name of the section."
@@ -60,11 +60,11 @@ class Section(models.Model):
     )
     content_before = models.TextField(
         blank=True,
-        help_text="content to be displayed above the columns",
+        help_text="content to be displayed above the cases",
     )
     content_after = models.TextField(
         blank=True,
-        help_text="content to be displayed below the columns",
+        help_text="content to be displayed below the cases",
     )
 
     def __str__(self):
@@ -74,19 +74,26 @@ class Section(models.Model):
         ordering = ("order", "name")
 
 
-class Column(models.Model):
-    name = models.CharField("name", max_length=100, help_text="The name of the column.")
+class Case(models.Model):
+    name = models.CharField("name", max_length=100, help_text="The name of the case.")
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
     width = models.IntegerField(
         "width",
         default=1,
-        help_text="The width of the column in multiples of how big it is compared to the narrowest column",
+        help_text="The width of the case in multiples of how big it is compared to the narrowest case",
     )
-    content = models.TextField(
+    content_above_articles = models.CharField(
+        max_length=255,
         blank=True,
-        help_text="The content of the column.  ",
+        help_text="The content of the case above any included articles",
+    )
+
+    content_below_articles = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="The content of the case below any included articles",
     )
 
     def __str__(self):
@@ -96,10 +103,10 @@ class Column(models.Model):
         ordering = ("name",)
 
 
-class Segment(models.Model):
-    column = models.ForeignKey(Column, blank=True, null=True, on_delete=models.SET_NULL)
+class Article(models.Model):
+    case = models.ForeignKey(Case, blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(
-        "title", max_length=100, help_text="The name of the segment."
+        "title", max_length=100, help_text="The name of the article."
     )
     iframe_src = models.CharField(
         "iframe source",
@@ -111,8 +118,8 @@ class Segment(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        default="segment-content uldoc",
-        help_text="HTML classes to be applied to the content (default: segment-content uldoc)",
+        default="article-content uldoc",
+        help_text="HTML classes to be applied to the content (default: article-content uldoc)",
     )
     content_format = models.CharField(
         max_length=12,
@@ -126,12 +133,12 @@ class Segment(models.Model):
     )
     content = models.TextField(
         blank=True,
-        help_text="The content of the column.  Expected to usually include an iframe or series of iframes",
+        help_text="The content of the case.  Expected to usually include an iframe or series of iframes",
     )
     order = models.IntegerField(
         "order",
         default=0,
-        help_text="The order that the segment would appear in the column",
+        help_text="The order that the article would appear in the case",
     )
     slug = models.SlugField(
         "slug",
@@ -141,22 +148,22 @@ class Segment(models.Model):
     )
 
     def __str__(self):
-        return "{}: {}".format(self.column, self.title)
+        return "{}: {}".format(self.case, self.title)
 
     class Meta:
-        ordering = ("column", "order", "title")
+        ordering = ("case", "order", "title")
 
 
-class SectionColumn(models.Model):
+class SectionCase(models.Model):
     section = models.ForeignKey(
         Section,
         on_delete=models.CASCADE,
-        help_text="The section to which the column belongs",
+        help_text="The section to which the case belongs",
     )
-    column = models.ForeignKey(
-        Column,
+    case = models.ForeignKey(
+        Case,
         on_delete=models.CASCADE,
-        help_text="The column which appears in the section",
+        help_text="The case which appears in the section",
     )
     order = models.IntegerField(
         "order",
@@ -168,7 +175,7 @@ class SectionColumn(models.Model):
         ordering = ("order", "section", "order")
 
     def __str__(self):
-        return "{} on {}".format(self.column, self.section)
+        return "{} on {}".format(self.case, self.section)
 
 
 class Tag(models.Model):

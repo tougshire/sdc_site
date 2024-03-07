@@ -9,25 +9,32 @@
       {{ section.content_before|safe }}
       </div>
     {% endif %}
-    {% if section.sectioncolumn_set.all %}
-    <div class="columns">
-      {% for sectioncolumn in section.sectioncolumn_set.all %}
-      <div class="column-wrapper" data-width="{{ sectioncolumn.column.width }}">
-        <div class="column" id="column_{{ sectioncolumn.pk }}">
-          {% if section.column.content %}
-            {{ sectioncolumn.column.content|safe }}
+    {% if section.sectioncase_set.all %}
+    <div class="cases">
+      {% for sectioncase in section.sectioncase_set.all %}
+      <div class="case-wrapper" data-width="{{ sectioncase.case.width }}">
+        <div class="case" id="case_{{ sectioncase.pk }}">
+          {% if section.case.content_above_articles %}
+            <div class="case-content">
+            {{ sectioncase.case.content_above_articles|safe }}
+            </div>
           {% endif %}
-          {% for segment in sectioncolumn.column.segment_set.all %}
-            <div class="segment" id="segment_{{ segment.pk }}">
-              <h2>{{ segment.title }}</h2>
-              <div class="{{ segment.content_classes }}" >
-                {{ segment.content|render_with_format:segment.content_format|safe }}
-                {% if segment.iframe_src %}
-                  <iframe src="{% get_from_iframe_src segment.iframe_src 'src' %}" height="{% get_from_iframe_src segment.iframe_src 'height' %}"></iframe>
+          {% for article in sectioncase.case.article_set.all %}
+            <div class="article" id="article_{{ article.pk }}">
+              <h2>{{ article.title }}</h2>
+              <div class="{{ article.content_classes }}" >
+                {{ article.content|render_with_format:article.content_format|safe }}
+                {% if article.iframe_src %}
+                  <iframe src="{% get_from_iframe_src article.iframe_src 'src' %}" height="{% get_from_iframe_src article.iframe_src 'height' %}"></iframe>
                 {% endif %}
                 </div>
             </div>
           {% endfor %}
+          {% if section.case.content_below_articles %}
+            <div class="case-content">
+            {{ sectioncase.case.content_below_articles|safe }}
+            </div>
+          {% endif %}
 
         </div>
       </div>
@@ -43,28 +50,28 @@
   </div>
 {% endfor %}
 <script>
-  function resizeColumns() {
+  function resizeCases() {
     if(window.innerWidth > 600) {
       var sections = document.getElementsByClassName("section")
       for(var section of sections) {
-        var columns = section.getElementsByClassName("column-wrapper")
+        var cases = section.getElementsByClassName("case-wrapper")
         var total_widths = 0
-        for(var column of columns) {
-          total_widths += parseInt(column.dataset["width"])
+        for(var case of cases) {
+          total_widths += parseInt(case.dataset["width"])
         }
-        for(var column of columns) {
-          column.style.width = (( 80/total_widths) * column.dataset["width"] ) + "%"
+        for(var case of cases) {
+          case.style.width = (( 80/total_widths) * case.dataset["width"] ) + "%"
         }
       }
     } else {
-      var columns = document.getElementsByClassName("column-wrapper")
-      for(var column of columns) {
-        column.style.width="90%"
+      var cases = document.getElementsByClassName("case-wrapper")
+      for(var case of cases) {
+        case.style.width="90%"
       }
     }
   }
-  resizeColumns()
-  window.addEventListener("resize", resizeColumns);
+  resizeCases()
+  window.addEventListener("resize", resizeCases);
 </script>
 
 {% endblock %}

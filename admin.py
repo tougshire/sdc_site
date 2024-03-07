@@ -1,13 +1,13 @@
 from django.contrib import admin
 from .models import (
-    Column,
+    Article,
+    Case,
     Menu,
     Menuitem,
     MenuPage,
     Page,
-    Segment,
     Section,
-    SectionColumn,
+    SectionCase,
     Site,
     Tag,
 )
@@ -23,25 +23,25 @@ class SectionInline(admin.TabularInline):
     extra = 0
 
 
-class SectionColumnInline(admin.TabularInline):
-    model = SectionColumn
+class SectionCaseInline(admin.TabularInline):
+    model = SectionCase
     extra = 0
 
 
-class SegmentInline(admin.TabularInline):
-    model = Segment
+class ArticleInline(admin.TabularInline):
+    model = Article
     extra = 0
 
 
-class ColumnAdmin(admin.ModelAdmin):
+class CaseAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
-        SegmentInline,
-        SectionColumnInline,
+        ArticleInline,
+        SectionCaseInline,
     ]
 
 
-admin.site.register(Column, ColumnAdmin)
+admin.site.register(Case, CaseAdmin)
 
 
 class MenuAdmin(admin.ModelAdmin):
@@ -70,20 +70,20 @@ admin.site.register(Page, PageAdmin)
 class SectionAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     inlines = [
-        SectionColumnInline,
+        SectionCaseInline,
     ]
 
 
 admin.site.register(Section, SectionAdmin)
 
-admin.site.register(SectionColumn)
+admin.site.register(SectionCase)
 
 
-class SegmentAdmin(admin.ModelAdmin):
+class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
 
-admin.site.register(Segment, SegmentAdmin)
+admin.site.register(Article, ArticleAdmin)
 
 
 class SiteAdmin(admin.ModelAdmin):
