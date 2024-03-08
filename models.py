@@ -210,12 +210,17 @@ class RackArticle(models.Model):
     article = models.ForeignKey(
         Article, blank=True, null=True, on_delete=models.SET_NULL
     )
+    order = models.IntegerField(
+        "order",
+        default=0,
+        help_text="A number used to order the articles, overriding the default",
+    )
 
     def __str__(self):
         return '"{}" in rack "{}"'.format(self.article, self.rack)
 
     class Meta:
-        ordering = ("rack", "article")
+        ordering = ("rack", "order", "article")
 
 
 class Tag(models.Model):
