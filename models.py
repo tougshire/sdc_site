@@ -170,11 +170,6 @@ class Article(models.Model):
         blank=True,
         help_text="The content of the article.  Expected to usually include an iframe or series of iframes",
     )
-    order = models.IntegerField(
-        "order",
-        default=0,
-        help_text="The order that the article would appear in the rack",
-    )
     created_datetime = models.DateTimeField(
         "date/time created",
         auto_now_add=True,

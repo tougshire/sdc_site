@@ -125,6 +125,7 @@ class ArticleModelForm(forms.ModelForm):
 
 
 class ArticleAdmin(admin.ModelAdmin):
+    list_display = ["title", "updated_datetime"]
     form = ArticleModelForm
     prepopulated_fields = {"slug": ("title",)}
     inlines = [
