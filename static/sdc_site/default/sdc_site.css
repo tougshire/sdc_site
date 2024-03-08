@@ -63,6 +63,7 @@ body {
 iframe {
     text-align:center;
     border:none;
+    width:90%;
 }
 
 @media only screen and (min-width: 600px) {

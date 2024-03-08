@@ -27,7 +27,7 @@
                 <div class="{{ rackarticle.article.content_classes }}" >
                   {{ rackarticle.article.content|render_with_format:rackarticle.article.content_format|safe }}
                   {% if rackarticle.article.iframe_src %}
-                    <iframe src="{% get_from_iframe_src rackarticle.article.iframe_src 'src' %}" height="{% get_from_iframe_src rackarticle.article.iframe_src 'height' %}"></iframe>
+                    <iframe src="{{ rackarticle.article.iframe_src }}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
                   {% endif %}
                   </div>
               </div>

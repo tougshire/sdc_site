@@ -149,6 +149,12 @@ class Article(models.Model):
         blank=True,
         help_text="If an iframe is to be displayed, the URL of an approved iframe source (must be listed in settings), optionally followed by a css height value",
     )
+    iframe_height = models.CharField(
+        "iframe height",
+        max_length=20,
+        blank=True,
+        help_text="The height of the iframe using css height syntax.  Blank to use values set in stylesheets",
+    )
     content_classes = models.CharField(
         max_length=255,
         blank=True,
