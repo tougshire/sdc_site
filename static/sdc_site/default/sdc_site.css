@@ -79,22 +79,22 @@ iframe {
         padding: .5ex .5ex;
     }
 
-    div.cases{
+    div.racks{
         display:flex;
         flex-wrap:wrap;
         justify-content: center;
 
     }
 
-    div.case-wrapper {
+    div.rack-wrapper {
         border-left:1px solid;
     }
 
-    div.case-wrapper:first-child {
+    div.rack-wrapper:first-child {
         border-left: none;
     }
 
-    div.case {
+    div.rack {
         width:90%;
         margin: 0 auto;
     }
@@ -112,7 +112,7 @@ iframe {
         padding: .5ex .5ex;
     }
 
-    div.cases {
+    div.racks {
         display:block;
     }
 }

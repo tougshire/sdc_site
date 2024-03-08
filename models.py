@@ -66,13 +66,13 @@ class Section(models.Model):
         default=0,
         help_text="The order that the section should appear on the page",
     )
-    content_before_cases = models.TextField(
+    content_before_racks = models.TextField(
         blank=True,
-        help_text="content to be displayed before the cases",
+        help_text="content to be displayed before the racks",
     )
-    content_after_cases = models.TextField(
+    content_after_racks = models.TextField(
         blank=True,
-        help_text="content to be displayed after the cases",
+        help_text="content to be displayed after the racks",
     )
 
     def __str__(self):
@@ -82,22 +82,22 @@ class Section(models.Model):
         ordering = ("page", "order", "name")
 
 
-class Case(models.Model):
+class Rack(models.Model):
     section = models.ForeignKey(
         Section,
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        help_text="The section to which the case belongs",
+        help_text="The section to which the rack belongs",
     )
-    name = models.CharField("name", max_length=100, help_text="The name of the case.")
+    name = models.CharField("name", max_length=100, help_text="The name of the rack.")
     slug = models.SlugField(
         "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
     )
     width = models.IntegerField(
         "width",
         default=1,
-        help_text="The width of the case in multiples of how big it is compared to the narrowest case",
+        help_text="The width of the rack in multiples of how big it is compared to the narrowest rack",
     )
     show_article_meta = models.CharField(
         "show article meta",
@@ -109,23 +109,23 @@ class Case(models.Model):
             ("ad", "Author and Date"),
         ],
         default="00",
-        help_text="What article meta information should be shown for aticles in cases",
+        help_text="What article meta information should be shown for aticles in racks",
     )
     content_before_articles = models.CharField(
         max_length=255,
         blank=True,
-        help_text="The content of the case before any included articles",
+        help_text="The content of the rack before any included articles",
     )
 
     content_after_articles = models.CharField(
         max_length=255,
         blank=True,
-        help_text="The content of the case after any included articles",
+        help_text="The content of the rack after any included articles",
     )
     order = models.IntegerField(
         "order",
         default=0,
-        help_text="A number used for ordering of the case in a section",
+        help_text="A number used for ordering of the rack in a section",
     )
 
     def __str__(self):
@@ -173,7 +173,7 @@ class Article(models.Model):
     order = models.IntegerField(
         "order",
         default=0,
-        help_text="The order that the article would appear in the case",
+        help_text="The order that the article would appear in the rack",
     )
     created_datetime = models.DateTimeField(
         "date/time created",
@@ -188,7 +188,7 @@ class Article(models.Model):
     publish_date = models.DateField(
         "published",
         default=date.today,
-        help_text="The published date, which can be filled in by the editors.  Used for sorting when more than one article is in a case.",
+        help_text="The published date, which can be filled in by the editors.  Used for sorting when more than one article is in a rack.",
     )
 
     slug = models.SlugField(
@@ -205,17 +205,17 @@ class Article(models.Model):
         ordering = ("-publish_date", "title")
 
 
-class CaseArticle(models.Model):
-    case = models.ForeignKey(Case, blank=True, null=True, on_delete=models.SET_NULL)
+class RackArticle(models.Model):
+    rack = models.ForeignKey(Rack, blank=True, null=True, on_delete=models.SET_NULL)
     article = models.ForeignKey(
         Article, blank=True, null=True, on_delete=models.SET_NULL
     )
 
     def __str__(self):
-        return '"{}" in case "{}"'.format(self.article, self.case)
+        return '"{}" in rack "{}"'.format(self.article, self.rack)
 
     class Meta:
-        ordering = ("case", "article")
+        ordering = ("rack", "article")
 
 
 class Tag(models.Model):
