@@ -11,7 +11,6 @@ from .models import (
     MenuPage,
     Page,
     Section,
-    Site,
     Tag,
 )
 
@@ -155,10 +154,6 @@ class SectionAdmin(admin.ModelAdmin):
     ]
 
 
-class SiteAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
-
-
 admin.site.register(Article, ArticleAdmin)
 
 admin.site.register(Document)
@@ -176,5 +171,3 @@ admin.site.register(Rack, RackAdmin)
 admin.site.register(RackArticle)
 
 admin.site.register(Section, SectionAdmin)
-
-admin.site.register(Site, SiteAdmin)

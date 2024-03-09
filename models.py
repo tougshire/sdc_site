@@ -2,24 +2,7 @@ from datetime import date
 from django.db import models
 
 
-class Site(models.Model):
-    name = models.CharField("name", max_length=100, help_text="The name of the site.")
-    slug = models.SlugField(
-        "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class Page(models.Model):
-    site = models.ForeignKey(
-        Site,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        help_text="The site to which this page belongs",
-    )
     title = models.CharField(
         "title", max_length=100, help_text="The title of the page."
     )
