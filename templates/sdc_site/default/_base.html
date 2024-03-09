@@ -43,7 +43,7 @@
         <div id="head">
             <a href="{% url 'sdc_site:homepage' %}">
                 {% if sdc_site.BANNER_IMAGE %}
-                    <img src="{% static sdc_site.BANNER_IMAGE %}" alt="{{ sdc_site.BANNER_ALT }}" />
+                    <img src="{% sdc_site.BANNER_IMAGE %}" alt="{{ sdc_site.BANNER_ALT }}" />
                 {% endif %}
                 {% if sdc_site.BANNER_TEXT %}
                     <div id="bannertext">
