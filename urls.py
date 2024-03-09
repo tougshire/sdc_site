@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.http import HttpResponse
 from django.views.generic.base import RedirectView
 from django.urls import path, reverse_lazy
@@ -28,4 +30,4 @@ urlpatterns = [
         views.RackView.as_view(),
         name="rack",
     ),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

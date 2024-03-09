@@ -40,10 +40,15 @@
     </head>
     <body>
 
-        <div id="head">
+        {% if "UPPER_BANNER_IMAGE" in sdc_site and sdc_site.UPPER_BANNER_IMAGE %}
+        <div id="upperhead" class="head" {% if "UPPER_HEAD_STYLE" in sdc_site %} style="{{ sdc_site.UPPER_HEAD_STYLE }}"{% endif %}>
+          <img src="{{ sdc_site.UPPER_BANNER_IMAGE }}" alt="{{ sdc_site.UPPER_BANNER_IMAGE_ALT }}" class="UPPER_BANNER" {% if 'UPPER_BANNER_IMAGE_STYLE' in sdc_site %} style="{{ sdc_site.UPPER_BANNER_IMAGE_STYLE }}" {% endif %} />
+        </div>
+        {% endif %}
+        <div id="head" class="head">
             <a href="{% url 'sdc_site:homepage' %}">
                 {% if sdc_site.BANNER_IMAGE %}
-                    <img src="{{ sdc_site.BANNER_IMAGE }}" alt="{{ sdc_site.BANNER_ALT }}" />
+                    <img src="{{ sdc_site.BANNER_IMAGE }}" alt="{{ sdc_site.BANNER_IMAGE_ALT }}" class="banner" {% if 'BANNER_IMAGE_STYLE' in sdc_site %} style="{{ sdc_site.BANNER_IMAGE_STYLE }}" {% endif %} />
                 {% endif %}
                 {% if sdc_site.BANNER_TEXT %}
                     <div id="bannertext">
