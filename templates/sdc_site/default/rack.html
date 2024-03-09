@@ -2,18 +2,6 @@
 {% load touglates_tags %}
 {% load sdc_site_extras %}
 {% block content %}
-{% for section in page.section_set.all %}
-  <div class="section">
-    {% if section.name and section.show_title %}
-      <h2>{{ section.name }}</h2>
-    {% endif %}
-    {% if section.content_before_racks %}
-      <div class="section_content">
-      {{ section.content_before_racks|safe }}
-      </div>
-    {% endif %}
-    <div class="racks">
-      {% for rack in section.rack_set.all %}
         <div class="rack-wrapper" data-width="{{ rack.width }}">
           <div class="rack" id="rack_{{ rack.pk }}">
             {% if rack.content_before_articles %}
@@ -31,7 +19,7 @@
                   {% elif rackarticle.article.iframe_src %}
                     <iframe src="{{ rackarticle.article.iframe_src }}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
                   {% endif %}
-                  </div>
+                </div>
               </div>
             {% endfor %}
             {% if rack.content_below_articles %}
@@ -42,40 +30,6 @@
           </div>
         </div>
 
-      {% endfor %}
-    </div>
-    {% if section.content_below_racks %}
-      <div class="section_content">
-      {{ section.content_below_racks|safe }}
-      </div>
-    {% endif %}
 
-  </div>
-
-{% endfor %}
-<script>
-  function resizeRacks() {
-    if(window.innerWidth > 600) {
-      var sections = document.getElementsByClassName("section")
-      for(var section of sections) {
-        var racks = section.getElementsByClassName("rack-wrapper")
-        var total_widths = 0
-        for(var rack of racks) {
-          total_widths += parseInt(rack.dataset["width"])
-        }
-        for(var rack of racks) {
-          rack.style.width = (( 80/total_widths) * rack.dataset["width"] ) + "%"
-        }
-      }
-    } else {
-      var racks = document.getElementsByClassName("rack-wrapper")
-      for(var rack of racks) {
-        rack.style.width="90%"
-      }
-    }
-  }
-  resizeRacks()
-  window.addEventListener("resize", resizeRacks);
-</script>
 
 {% endblock %}

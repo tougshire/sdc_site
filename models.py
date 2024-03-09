@@ -139,9 +139,27 @@ class Rack(models.Model):
         )
 
 
+class Document(models.Model):
+    name = models.CharField(
+        "name",
+        max_length=50,
+        help_text="The name of the document for reference within this application",
+    )
+    doc_file = models.FileField(
+        upload_to="documents", help_text="The file to be uploaded"
+    )
+
+
 class Article(models.Model):
     title = models.CharField(
         "title", max_length=100, help_text="The name of the article."
+    )
+    iframe_document = models.ForeignKey(
+        Document,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        help_text="If selected, the document to be displayed in the iframe.  This will take precedence over anything entered in the iframe source field",
     )
     iframe_src = models.CharField(
         "iframe source",
@@ -254,6 +272,7 @@ class Menuitem(models.Model):
         blank=True,
         help_text="The menu to which this item belongs",
     )
+
     href = models.CharField(
         "href",
         max_length=255,

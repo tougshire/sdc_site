@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView
 from html_sanitizer.django import get_sanitizer
 from touglates.templatetags import touglates_tags as touglates
-from .models import Page
+from .models import Page, Rack
 
 logger = logging.getLogger(__name__)
 
@@ -28,3 +28,8 @@ def home_page(request):
 class PageView(DetailView):
     model = Page
     template_name = "{}/page.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
+
+
+class RackView(DetailView):
+    model = Rack
+    template_name = "{}/rack.html".format(settings.SDC_SITE["TEMPLATE_DIR"])

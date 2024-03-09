@@ -18,4 +18,14 @@ urlpatterns = [
         views.PageView.as_view(),
         name="page",
     ),
+    path(
+        "article/<int:pk>/",
+        views.RackView.as_view(),
+        name="rack",
+    ),
+    path(
+        "article/<slug:slug>/",
+        views.RackView.as_view(),
+        name="rack",
+    ),
 ]
