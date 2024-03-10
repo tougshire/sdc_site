@@ -67,7 +67,7 @@ class SectionInline(admin.TabularInline):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["title", "updated_datetime"]
+    list_display = ["title", "slug", "updated_datetime"]
     fields = [
         "title",
         "slug",
@@ -90,7 +90,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
         if form.cleaned_data["create_rack_to_section"]:
             rack = Rack.objects.create(
-                name=obj.title,
+                title=obj.title,
                 slug=obj.slug,
                 section=form.cleaned_data["create_rack_to_section"],
             )
@@ -100,6 +100,10 @@ class ArticleAdmin(admin.ModelAdmin):
             )
 
         return saved
+
+
+class DocumentAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
 
 
 class MenuAdmin(admin.ModelAdmin):
@@ -133,6 +137,7 @@ class MenuitemAdmin(admin.ModelAdmin):
 
 
 class PageAdmin(admin.ModelAdmin):
+    list_display = ("title", "slug")
     prepopulated_fields = {"slug": ("title",)}
     inlines = [
         SectionInline,
@@ -141,14 +146,14 @@ class PageAdmin(admin.ModelAdmin):
 
 
 class RackAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("title",)}
     inlines = [
         RackArticleInline,
     ]
 
 
 class SectionAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("title",)}
     inlines = [
         RackInline,
     ]
@@ -156,7 +161,7 @@ class SectionAdmin(admin.ModelAdmin):
 
 admin.site.register(Article, ArticleAdmin)
 
-admin.site.register(Document)
+admin.site.register(Document, DocumentAdmin)
 
 admin.site.register(Menu, MenuAdmin)
 

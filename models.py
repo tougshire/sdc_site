@@ -4,22 +4,41 @@ from django.db import models
 
 class Page(models.Model):
     title = models.CharField(
-        "title", max_length=100, help_text="The title of the page."
+        "title",
+        blank=True,
+        max_length=100,
+        help_text="The title of the page. to be displayed (can be blank)",
     )
-    is_home = models.BooleanField(
-        "is home page", default=False, help_text="If this is the home page"
+    show_title = models.BooleanField(
+        "show title",
+        default=True,
+        help_text="If the title should be shown (if not blank)",
     )
     slug = models.SlugField(
-        "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
+        "name/slug",
+        max_length=100,
+        unique=True,
+        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+    )
+
+    is_home = models.BooleanField(
+        "is home page", default=False, help_text="If this is the home page"
     )
     order = models.IntegerField(
         "order",
         default=0,
         help_text="The order that the page would appear in a list",
     )
+    display = models.CharField(
+        "display",
+        max_length=2,
+        choices=[("Y", "Normal"), ("H", "Hide from Menus"), ("N", "Do not display")],
+        default="Y",
+        help_text="How the page should be displayed",
+    )
 
     def __str__(self):
-        return self.title
+        return self.slug
 
     class Meta:
         ordering = ("order", "title")
@@ -33,16 +52,22 @@ class Section(models.Model):
         blank=True,
         help_text="The page to which this section belongs",
     )
-    name = models.CharField(
-        "name", max_length=100, help_text="The title of the section."
+    title = models.CharField(
+        "title",
+        blank=True,
+        max_length=100,
+        help_text="The title of the page. to be displayed (can be blank)",
     )
     show_title = models.BooleanField(
         "show title",
         default=True,
-        help_text="Show the name of the section as a title",
+        help_text="If the title should be shown (if not blank)",
     )
     slug = models.SlugField(
-        "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
+        "name/slug",
+        max_length=100,
+        unique=True,
+        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
     )
     order = models.IntegerField(
         "order",
@@ -57,12 +82,21 @@ class Section(models.Model):
         blank=True,
         help_text="content to be displayed after the racks",
     )
+    display = models.CharField(
+        "display",
+        max_length=2,
+        choices=[("Y", "Normal"), ("P", "Preview Only"), ("N", "Do not display")],
+        default="Y",
+        help_text="How the section should be displayed",
+    )
 
     def __str__(self):
-        return '"{}" on page "{}"'.format(self.name, self.page)
+        return '"{}" on page "{}"'.format(
+            self.title if self.title > "" else self.slug, self.page
+        )
 
     class Meta:
-        ordering = ("page", "order", "name")
+        ordering = ("page", "order")
 
 
 class Rack(models.Model):
@@ -73,10 +107,24 @@ class Rack(models.Model):
         on_delete=models.SET_NULL,
         help_text="The section to which the rack belongs",
     )
-    name = models.CharField("name", max_length=100, help_text="The name of the rack.")
-    slug = models.SlugField(
-        "slug", max_length=100, unique=True, help_text="The slug for use in URLs"
+    title = models.CharField(
+        "title",
+        blank=True,
+        max_length=100,
+        help_text="The title of the rack to be displayed (can be blank)",
     )
+    show_title = models.BooleanField(
+        "show title",
+        default=True,
+        help_text="If the title should be shown (if not blank)",
+    )
+    slug = models.SlugField(
+        "name/slug",
+        max_length=100,
+        unique=True,
+        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+    )
+
     width = models.IntegerField(
         "width",
         default=1,
@@ -110,33 +158,75 @@ class Rack(models.Model):
         default=0,
         help_text="A number used for ordering of the rack in a section",
     )
+    display = models.CharField(
+        "display",
+        max_length=2,
+        choices=[
+            ("Y", "Normal"),
+            ("P", "Preview Only"),
+            ("H", "Hide from sections"),
+            ("N", "Do not display"),
+        ],
+        default="Y",
+        help_text="How the rack should be displayed. Racks that are hidden from sections may still be displayed independently",
+    )
 
     def __str__(self):
-        return '"{}" in section "{}"'.format(self.name, self.section)
+
+        return '"{}" in section "{}"'.format(
+            self.title if self.title > "" else self.slug, self.section
+        )
 
     class Meta:
         ordering = (
             "section",
             "order",
-            "name",
         )
 
 
 class Document(models.Model):
-    name = models.CharField(
-        "name",
-        max_length=50,
-        help_text="The name of the document for reference within this application",
+    title = models.CharField(
+        "title",
+        max_length=100,
+        blank=True,
+        help_text="The title to be displayed with document.  It may or may not correspond to anything in the document itself. (can be blank)",
     )
+    show_title = models.BooleanField(
+        "show title",
+        default=True,
+        help_text="If the title should be shown (if not blank)",
+    )
+    slug = models.SlugField(
+        "name/slug",
+        max_length=100,
+        unique=True,
+        blank=True,
+        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+    )
+
     doc_file = models.FileField(
         upload_to="documents", help_text="The file to be uploaded"
     )
+
+    def __str__(self):
+        return (
+            self.title
+            if self.title > ""
+            else self.slug if self.slug > "" else str(self.pk)
+        )
 
 
 class Article(models.Model):
     title = models.CharField(
         "title", max_length=100, help_text="The name of the article."
     )
+    slug = models.SlugField(
+        "name/slug",
+        max_length=100,
+        unique=True,
+        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+    )
+
     iframe_document = models.ForeignKey(
         Document,
         blank=True,
@@ -159,7 +249,6 @@ class Article(models.Model):
     content_classes = models.CharField(
         max_length=255,
         blank=True,
-        null=True,
         default="article-content uldoc",
         help_text="HTML classes to be applied to the content (default: article-content uldoc)",
     )
@@ -192,12 +281,17 @@ class Article(models.Model):
         default=date.today,
         help_text="The published date, which can be filled in by the editors.  Used for sorting when more than one article is in a rack.",
     )
-
-    slug = models.SlugField(
-        "slug",
-        unique=True,
-        max_length=100,
-        help_text="The slug for use in URLs",
+    display = models.CharField(
+        "display",
+        max_length=2,
+        choices=[
+            ("Y", "Normal"),
+            ("P", "Preview Only"),
+            ("H", "Hide from Racks"),
+            ("N", "Do not display"),
+        ],
+        default="Y",
+        help_text="How the section should be displayed.  If hidden from racks, the article may still be found by other means",
     )
 
     def __str__(self):
@@ -208,9 +302,19 @@ class Article(models.Model):
 
 
 class RackArticle(models.Model):
-    rack = models.ForeignKey(Rack, blank=True, null=True, on_delete=models.SET_NULL)
+    rack = models.ForeignKey(
+        Rack,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        help_text="The rack that holds the article",
+    )
     article = models.ForeignKey(
-        Article, blank=True, null=True, on_delete=models.SET_NULL
+        Article,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        help_text="The article in the rack",
     )
     order = models.IntegerField(
         "order",

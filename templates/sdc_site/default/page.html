@@ -4,8 +4,8 @@
 {% block content %}
 {% for section in page.section_set.all %}
   <div class="section">
-    {% if section.name and section.show_title %}
-      <h2>{{ section.name }}</h2>
+    {% if section.title and section.show_title %}
+      <h2>{{ section.title }}</h2>
     {% endif %}
     {% if section.content_before_racks %}
       <div class="section_content">
@@ -16,8 +16,11 @@
       {% for rack in section.rack_set.all %}
         <div class="rack-wrapper" data-width="{{ rack.width }}">
           <div class="rack" id="rack_{{ rack.pk }}">
+            {% if rack.title and rack.show_title %}
+              <h3>{{ rack.title }}</h3>
+            {% endif %}
             {% if rack.content_before_articles %}
-              <div class="rack-content">
+             <div class="rack-content">
                 {{ rack.content_before_articles|safe }}
               </div>
             {% endif %}
