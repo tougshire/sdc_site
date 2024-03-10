@@ -13,7 +13,11 @@
               <div class="article" id="rackarticle.article_{{ article.pk }}">
                 <h3>{{ rackarticle.article.title }}</h3>
                 <div class="{{ rackarticle.article.content_classes }}" >
-                  {{ rackarticle.article.content|render_with_format:rackarticle.article.content_format|safe }}
+                  {% if rackarticle.article.author.is_staff  %}
+                    {{ rackarticle.article.content|safe }}
+                  {% else %}
+                    {{ rackarticle.article.content }}
+                  {% endif %}
                   {% if rackarticle.article.iframe_document %}
                     <iframe src="{% url rackarticle.article.iframe_document.href %}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
                   {% elif rackarticle.article.iframe_src %}
