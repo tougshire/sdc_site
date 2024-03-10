@@ -13,6 +13,7 @@ from .models import (
     Section,
     Tag,
 )
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 
 class ArticleModelForm(forms.ModelForm):
@@ -21,6 +22,7 @@ class ArticleModelForm(forms.ModelForm):
         required=False,
         help_text="If selected, create a new rack for this article in the selected section",
     )
+    content = forms.CharField(widget=CKEditor5Widget())
 
 
 class MenuitemModelForm(forms.ModelForm):
@@ -71,8 +73,9 @@ class ArticleAdmin(admin.ModelAdmin):
     fields = [
         "title",
         "slug",
+        "author",
+        "display",
         "content_classes",
-        "content_format",
         "content",
         ("iframe_document", "iframe_src", "iframe_height"),
         "publish_date",

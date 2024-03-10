@@ -1,5 +1,6 @@
 from datetime import date
 from django.db import models
+from django.conf import settings
 
 
 class Page(models.Model):
@@ -220,6 +221,9 @@ class Article(models.Model):
     title = models.CharField(
         "title", max_length=100, help_text="The name of the article."
     )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
+    )
     slug = models.SlugField(
         "name/slug",
         max_length=100,
@@ -251,16 +255,6 @@ class Article(models.Model):
         blank=True,
         default="article-content uldoc",
         help_text="HTML classes to be applied to the content (default: article-content uldoc)",
-    )
-    content_format = models.CharField(
-        max_length=12,
-        choices=(
-            ("markdown", "Markdown"),
-            ("html", "HTML"),
-            ("plaintext", "Plain Text"),
-        ),
-        default="markdown",
-        help_text="The format used for rendering the content",
     )
     content = models.TextField(
         blank=True,

@@ -6,7 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect, response
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView
-from html_sanitizer.django import get_sanitizer
 from touglates.templatetags import touglates_tags as touglates
 from .models import Page, Rack
 
