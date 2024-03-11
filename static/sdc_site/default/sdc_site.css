@@ -3,15 +3,21 @@ body {
 }
 
 #upperhead {
-    overflow:hidden;
-    border-bottom:3px solid;
+    position:sticky;
+    top:0;
+    z-index: -1;
 }
 
+#head {
+    border-top:3px solid;
+
+}
 .head {
     width:80%;
     margin: 0 auto;
     text-align:center;
     margin-top:3px;
+
 }
 .head img.banner {
     width:80%;

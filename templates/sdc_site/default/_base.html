@@ -95,13 +95,28 @@
         </div>
         <script>
           var menubar = document.getElementById("menubar")
-          var menuTop = menubar.offsetTop
+          var menubarStartingTop = menubar.offsetTop
+          var menubarStartingPosition = menubar.style.position
+          var menubarHight = menubar.offsetHeight
+          var upperhead = document.getElementById("upperhead")
+          if(upperhead != null) {
+            var upperheadHeight = upperhead.offsetHeight
+          }
+          var headHeight = document.getElementById("head").offsetHeight
           function make_menu_sicky(e) {
+            console.log(window.scrollY)
 
             if( screen.orientation.type=="landscape-primary") {
-              if(window.scrollY > menuTop) {
+              if(window.scrollY > menubarStartingTop) {
                 menubar.style.position="sticky"
                 menubar.style.top="0"
+              } else {
+                menubar.style.position = menubarStartingPosition
+              }
+            }
+            if (upperhead != null) {
+              if(window.scrollY > (upperheadHeight - menubarHight ) ) {
+                upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - menubarHight ) ) ) + "px"
               }
             }
           }
