@@ -93,5 +93,19 @@
                 {% endif %}
             </div>
         </div>
+        <script>
+          var menubar = document.getElementById("menubar")
+          var menuTop = menubar.offsetTop
+          function make_menu_sicky(e) {
+
+            if( screen.orientation.type=="landscape-primary") {
+              if(window.scrollY > menuTop) {
+                menubar.style.position="sticky"
+                menubar.style.top="0"
+              }
+            }
+          }
+          window.addEventListener("scroll", function() {make_menu_sicky();})
+        </script>
     </body>
 </html>
