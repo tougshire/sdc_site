@@ -14,6 +14,7 @@ from .models import (
     Tag,
 )
 from django_ckeditor_5.widgets import CKEditor5Widget
+from django.conf import settings
 
 
 class ArticleModelForm(forms.ModelForm):
@@ -22,7 +23,11 @@ class ArticleModelForm(forms.ModelForm):
         required=False,
         help_text="If selected, create a new rack for this article in the selected section",
     )
-    content = forms.CharField(widget=CKEditor5Widget())
+    content = forms.CharField(
+        widget=CKEditor5Widget(
+            config_name="extends",
+        )
+    )
 
 
 class MenuitemModelForm(forms.ModelForm):
