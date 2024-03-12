@@ -94,33 +94,68 @@
             </div>
         </div>
         <script>
-          var menubar = document.getElementById("menubar")
+          function hideMenuBar () {
+            menuItems = document.querySelectorAll("#menubar a")
+            for(menuItem of menuItems) {
+              if(menuItem.id == "menuItemHide") {
+                if(menuItem.innerText == "^") {
+                  menuItem.innerText = '\u{2304}'
+                } else {
+                  menuItem.innerText = "^"
+                }
+              } else {
+                if(menuItem.style.display == "none") {
+                  menuItem.style.display = menuBarItemStyleDisplay
+                } else {
+                  menuItem.style.display = "none"
+              }
+            }
+          }
+        }
+        var menubar = document.getElementById("menubar")
+        var menuBarItemStyleDisplay = ""
+        if (menubar != null) {
           var menubarStartingTop = menubar.offsetTop
           var menubarStartingPosition = menubar.style.position
           var menubarHight = menubar.offsetHeight
-          var upperhead = document.getElementById("upperhead")
-          if(upperhead != null) {
-            var upperheadHeight = upperhead.offsetHeight
+          if(window.innerWidth < 600 ) {
+            var menuItem = document.getElementById("menubar").firstElementChild
+            if(menuItem != null) {
+              menuBarItemStyleDisplay = menuItem.style.display
+              var menuItemHide = menuItem.cloneNode()
+              menuItemHide.innerText = "^"
+              menuItemHide.href="#"
+              menuItemHide.id = "menuItemHide"
+              menuItemHide.addEventListener('click', function(e) {
+                e.preventDefault()
+                hideMenuBar()
+              });
+            }
+            menubar.appendChild(menuItemHide)
           }
-          var headHeight = document.getElementById("head").offsetHeight
-          function make_menu_sicky(e) {
-            console.log(window.scrollY)
+        }
+        var upperhead = document.getElementById("upperhead")
+        if(upperhead != null) {
+          var upperheadHeight = upperhead.offsetHeight
+        }
+        var headHeight = document.getElementById("head").offsetHeight
+        function scroll_effects(e) {
 
-            if( screen.orientation.type=="landscape-primary") {
-              if(window.scrollY > menubarStartingTop) {
-                menubar.style.position="sticky"
-                menubar.style.top="0"
-              } else {
-                menubar.style.position = menubarStartingPosition
-              }
-            }
-            if (upperhead != null) {
-              if(window.scrollY > (upperheadHeight - menubarHight ) ) {
-                upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - menubarHight ) ) ) + "px"
-              }
+          if( menubar != null ) {
+            if(window.scrollY > menubarStartingTop) {
+              menubar.style.position="sticky"
+              menubar.style.top="0"
+            } else {
+              menubar.style.position = menubarStartingPosition
             }
           }
-          window.addEventListener("scroll", function() {make_menu_sicky();})
-        </script>
+          if (upperhead != null) {
+            if(window.scrollY > (upperheadHeight - menubarHight ) ) {
+              upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - menubarHight ) ) ) + "px"
+            }
+          }
+        }
+        window.addEventListener("scroll", function() {scroll_effects();})
+      </script>
     </body>
 </html>
