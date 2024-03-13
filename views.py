@@ -44,9 +44,6 @@ class RackView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["page_menus"] = Menu.objects.filter(
-            menupage__page=self.get_object()
-        )
         context_data["main_menus"] = Menu.objects.filter(level__gte=1000)
 
         return context_data
