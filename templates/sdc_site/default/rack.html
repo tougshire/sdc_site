@@ -19,7 +19,7 @@
                     {{ rackarticle.article.content }}
                   {% endif %}
                   {% if rackarticle.article.iframe_document %}
-                    <iframe src="{% url rackarticle.article.iframe_document.href %}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
+                    <iframe src="{{} rackarticle.article.iframe_document.href }}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
                   {% elif rackarticle.article.iframe_src %}
                     <iframe src="{{ rackarticle.article.iframe_src }}"{% if rackarticle.article.iframe_height %} height="{{ rackarticle.article.iframe_height }}"{% endif %}>"Loading.."</iframe>
                   {% endif %}
