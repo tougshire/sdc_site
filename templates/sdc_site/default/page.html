@@ -46,6 +46,12 @@
                 {{ rack.content_below_articles|safe }}
               </div>
             {% endif %}
+            {% if rack.preview_for %}
+              <div class="rack-content">
+                <a href="{% url "sdc_site:rack" rack.preview_for.pk %}">Read More</a>
+              </div>
+            {% endif %}
+
           </div>
         </div>
 

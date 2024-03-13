@@ -125,7 +125,6 @@ class Rack(models.Model):
         unique=True,
         help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
     )
-
     width = models.IntegerField(
         "width",
         default=1,
@@ -144,15 +143,24 @@ class Rack(models.Model):
         help_text="What article meta information should be shown for aticles in racks",
     )
     content_before_articles = models.CharField(
+        "content before articles",
         max_length=255,
         blank=True,
         help_text="The content of the rack before any included articles",
     )
 
     content_after_articles = models.CharField(
+        "content after articles",
         max_length=255,
         blank=True,
         help_text="The content of the rack after any included articles",
+    )
+    preview_for = models.ForeignKey(
+        "Rack",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        help_text="The target rack if this rack is a preview for another.  The intent in this case is for you to fill out content before article",
     )
     order = models.IntegerField(
         "order",

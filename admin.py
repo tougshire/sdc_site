@@ -24,9 +24,7 @@ class ArticleModelForm(forms.ModelForm):
         help_text="If selected, create a new rack for this article in the selected section",
     )
     content = forms.CharField(
-        widget=CKEditor5Widget(
-            config_name="extends",
-        )
+        required=False, widget=CKEditor5Widget(config_name="extends")
     )
 
 
