@@ -7,7 +7,7 @@
     color:white;
 }
 
-#menubar, #menubar a, #menubar a:visited, #menubar a:hover {
+#sitemenu, #sitemenu a, #sitemenu a:visited, #sitemenu a:hover {
     background-color: rgb(25, 25, 50);
     color:white;
 }

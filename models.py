@@ -348,9 +348,17 @@ class Menu(models.Model):
     name = models.CharField(
         "name", max_length=30, blank=True, help_text="The label of this menu item"
     )
+    level = models.IntegerField(
+        "level",
+        default=0,
+        help_text="A number, like an id (but not unique enforced), which can be used for the page to indentify the menu. Use of 1000 for the main menu is recommended",
+    )
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ("-level",)
 
 
 class Menuitem(models.Model):

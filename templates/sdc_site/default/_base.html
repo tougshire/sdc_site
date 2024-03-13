@@ -66,10 +66,10 @@
             </div>
         {% endif %}
 
-        {% for menupage in page.menupage_set.all %}
+        {% for menu in main_menus %}
             {% if forloop.first %}
-            <div id="menubar">
-                {% for item in menupage.menu.menuitem_set.all %}
+            <div id="sitemenu">
+                {% for item in menu.menuitem_set.all %}
                     <a href="{{ item.href }}">{{ item.label }}</a>
                 {% endfor %}
             </div>
@@ -94,68 +94,81 @@
             </div>
         </div>
         <script>
-          function hideMenuBar () {
-            menuItems = document.querySelectorAll("#menubar a")
-            for(menuItem of menuItems) {
-              if(menuItem.id == "menuItemHide") {
-                if(menuItem.innerText == "^") {
-                  menuItem.innerText = '\u{2304}'
-                } else {
-                  menuItem.innerText = "^"
-                }
-              } else {
-                if(menuItem.style.display == "none") {
-                  menuItem.style.display = menuBarItemStyleDisplay
-                } else {
-                  menuItem.style.display = "none"
-              }
-            }
-          }
-        }
-        var menubar = document.getElementById("menubar")
-        var menuBarItemStyleDisplay = ""
-        if (menubar != null) {
-          var menubarStartingTop = menubar.offsetTop
-          var menubarStartingPosition = menubar.style.position
-          var menubarHight = menubar.offsetHeight
-          if(window.innerWidth < 600 ) {
-            var menuItem = document.getElementById("menubar").firstElementChild
-            if(menuItem != null) {
-              menuBarItemStyleDisplay = menuItem.style.display
-              var menuItemHide = menuItem.cloneNode()
-              menuItemHide.innerText = "^"
-              menuItemHide.href="#"
-              menuItemHide.id = "menuItemHide"
-              menuItemHide.addEventListener('click', function(e) {
-                e.preventDefault()
-                hideMenuBar()
-              });
-            }
-            menubar.appendChild(menuItemHide)
-          }
-        }
-        var upperhead = document.getElementById("upperhead")
-        if(upperhead != null) {
-          var upperheadHeight = upperhead.offsetHeight
-        }
-        var headHeight = document.getElementById("head").offsetHeight
-        function scroll_effects(e) {
 
-          if( menubar != null ) {
-            if(window.scrollY > menubarStartingTop) {
-              menubar.style.position="sticky"
-              menubar.style.top="0"
-            } else {
-              menubar.style.position = menubarStartingPosition
-            }
-          }
-          if (upperhead != null) {
-            if(window.scrollY > (upperheadHeight - menubarHight ) ) {
-              upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - menubarHight ) ) ) + "px"
-            }
-          }
-        }
-        window.addEventListener("scroll", function() {scroll_effects();})
-      </script>
+var sitemenuHeight = 0
+var sitemenu = document.getElementById("sitemenu")
+if( sitemenu != null) {
+	sitemenuHeight = sitemenu.offsetHeight
+	var sitemenuStartingTop = sitemenu.offsetTop
+	var sitemenuStartingPosition = sitemenu.style.position
+}
+var upperheadHeight = 0
+var upperhead = document.getElementById("upperhead")
+if(upperhead != null) {
+	upperheadHeight = upperhead.offsetHeight
+}
+var headHeight = document.getElementById("head").offsetHeight
+
+if (sitemenu != null) {
+
+	if(window.innerWidth < 600 ) {
+		var menuItem = document.getElementById("sitemenu").firstElementChild
+		if(menuItem != null) {
+			sitemenuItemStyleDisplay = menuItem.style.display
+			var menuItemHide = menuItem.cloneNode()
+			menuItemHide.innerText = "^"
+			menuItemHide.href="#"
+			menuItemHide.id = "menuItemHide"
+			menuItemHide.addEventListener('click', function(e) {
+				e.preventDefault()
+				hidesitemenu()
+			});
+		}
+		sitemenu.appendChild(menuItemHide)
+	}
+}
+function scroll_effects(e) {
+
+	if( sitemenu != null ) {
+		if(window.scrollY > sitemenuStartingTop) {
+			sitemenu.style.position="sticky"
+			sitemenu.style.top="0"
+		} else {
+			sitemenu.style.position = sitemenuStartingPosition
+		}
+	}
+	if (upperhead != null) {
+		if(window.scrollY > (upperheadHeight - sitemenuHeight ) ) {
+  		upperhead.style.top = ( 0 - ( window.scrollY - ( upperheadHeight - sitemenuHeight ) ) ) + "px"
+		}
+	}
+}
+function hidesitemenu () {
+	menuItems = document.querySelectorAll("#sitemenu a")
+	for(menuItem of menuItems) {
+		if(menuItem.id == "menuItemHide") {
+			if(menuItem.innerText == "^") {
+				menuItem.innerText = '\u{2304}'
+			} else {
+				menuItem.innerText = "^"
+			}
+		} else {
+			if(menuItem.style.display == "none") {
+				menuItem.style.display = sitemenuItemStyleDisplay
+			} else {
+				menuItem.style.display = "none"
+			}
+		}
+	}
+}
+
+
+window.addEventListener("scroll", function(e) {
+  scroll_effects(e);
+})
+
+
+
+        </script>
     </body>
 </html>
