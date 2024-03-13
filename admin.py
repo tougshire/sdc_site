@@ -75,6 +75,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ["title", "slug", "updated_datetime"]
     fields = [
         "title",
+        "show_title",
         "slug",
         "author",
         "display",
