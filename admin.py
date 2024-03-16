@@ -63,6 +63,7 @@ class RackInline(admin.TabularInline):
 
 class RackArticleInline(admin.TabularInline):
     model = RackArticle
+    fk_name = "article"
     extra = 0
 
 
@@ -72,14 +73,13 @@ class SectionInline(admin.TabularInline):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ["title", "slug", "updated_datetime"]
+    list_display = ["pk", "title", "slug", "updated_datetime"]
     fields = [
         "title",
         "show_title",
         "slug",
         "author",
         "display",
-        "content_classes",
         "content",
         ("iframe_document", "iframe_src", "iframe_height"),
         "publish_date",
@@ -152,11 +152,11 @@ class PageAdmin(admin.ModelAdmin):
     ]
 
 
-class RackAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("title",)}
-    inlines = [
-        RackArticleInline,
-    ]
+# class RackAdmin(admin.ModelAdmin):
+#     prepopulated_fields = {"slug": ("title",)}
+#     inlines = [
+#         RackArticleInline,
+#     ]
 
 
 class SectionAdmin(admin.ModelAdmin):
@@ -178,7 +178,10 @@ admin.site.register(MenuPage)
 
 admin.site.register(Page, PageAdmin)
 
-admin.site.register(Rack, RackAdmin)
+# admin.site.register(Rack, RackAdmin)
+
+admin.site.register(Rack)
+
 
 admin.site.register(RackArticle)
 
