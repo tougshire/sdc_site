@@ -35,6 +35,8 @@ class PageView(DetailView):
         )
         context_data["main_menus"] = Menu.objects.filter(level__gte=1000)
 
+        context_data["base_url"] = self.request.build_absolute_uri("/")
+
         return context_data
 
 
