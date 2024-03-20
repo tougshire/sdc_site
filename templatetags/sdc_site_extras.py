@@ -8,7 +8,6 @@ register = template.Library()
 @register.simple_tag
 def get_from_iframe_src(value, want="src"):
     [src, height] = value.split(" ")
-    print("tp2436c39", value)
     if not height:
         height = "600px"
     if want == "src":
