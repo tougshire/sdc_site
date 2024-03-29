@@ -39,6 +39,7 @@
         <script src="{% static 'touglates/touglates.js' %}"></script>
     </head>
     <body>
+
         {% if "UPPER_BANNER_IMAGE" in sdc_site and sdc_site.UPPER_BANNER_IMAGE %}
         <div id="upperhead" class="head" {% if "UPPER_HEAD_STYLE" in sdc_site %} style="{{ sdc_site.UPPER_HEAD_STYLE }}"{% endif %}>
           <img src="{{ sdc_site.UPPER_BANNER_IMAGE }}" alt="{{ sdc_site.UPPER_BANNER_IMAGE_ALT }}" class="UPPER_BANNER" {% if 'UPPER_BANNER_IMAGE_STYLE' in sdc_site %} style="{{ sdc_site.UPPER_BANNER_IMAGE_STYLE }}" {% endif %} />
@@ -64,9 +65,9 @@
                 {% endfor %}
             </div>
         {% endif %}
-        {% for menu in main_menus %}
 
-          {% if forloop.first %}
+        {% for menu in main_menus %}
+            {% if forloop.first %}
             <div id="sitemenu">
                 {% for item in menu.menuitem_set.all %}
                     <a href="{{ base_url }}{{ item.href }}">{{ item.label }}</a>
