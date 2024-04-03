@@ -155,13 +155,6 @@ class Rack(models.Model):
         blank=True,
         help_text="The content of the rack after any included articles",
     )
-    preview_for = models.ForeignKey(
-        "Rack",
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        help_text="The target rack if this rack is a preview for another.  The intent in this case is for you to fill out content before article",
-    )
     order = models.IntegerField(
         "order",
         default=0,
@@ -173,7 +166,6 @@ class Rack(models.Model):
         choices=[
             ("Y", "Normal"),
             ("P", "Preview Only"),
-            ("H", "Hide from sections"),
             ("N", "Do not display"),
         ],
         default="Y",
@@ -276,31 +268,23 @@ class Article(models.Model):
         help_text="The height of the iframe using css height syntax.  Blank to use values set in stylesheets",
     )
     content = models.TextField(
+        "content",
         blank=True,
         help_text="The content of the article",
     )
-    preview_for = models.ForeignKey(
-        "Rack",
+    summary = models.TextField(
+        "summary",
         blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        help_text="The target rack if this rack is a preview for another.  The intent in this case is for you to fill out content before article",
+        help_text="A summary of the content of the article",
     )
-    can_contain_articles = models.BooleanField(
-        "Can Contain Articles",
-        default=False,
-        help_text="If this article can contain other articles",
-    )
-    show_contained_article_meta = models.IntegerField(
-        "show article meta",
+    if_summary_blank = models.IntegerField(
+        "If summary is blank",
         choices=[
-            (0, "None"),
-            (1, "Author"),
-            (2, "Publish Date"),
-            (3, "Author and Date"),
+            (0, "Show Blank"),
+            (1, "Show Content"),
         ],
-        default=0,
-        help_text="What article meta information should be shown for aticles in racks",
+        default=1,
+        help_text="What to display if the summary is blank",
     )
 
     created_datetime = models.DateTimeField(
@@ -324,7 +308,6 @@ class Article(models.Model):
         choices=[
             ("Y", "Normal"),
             ("P", "Preview Only"),
-            ("H", "Hide from Racks"),
             ("N", "Do not display"),
         ],
         default="Y",
@@ -338,84 +321,6 @@ class Article(models.Model):
         ordering = ("-publish_date", "title")
 
 
-# class Article(models.Model):
-#     title = models.CharField(
-#         "title", max_length=100, help_text="The name of the article."
-#     )
-#     author = models.ForeignKey(
-#         settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL
-#     )
-#     slug = models.SlugField(
-#         "name/slug",
-#         max_length=100,
-#         unique=True,
-#         help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
-#     )
-
-#     iframe_document = models.ForeignKey(
-#         Document,
-#         blank=True,
-#         null=True,
-#         on_delete=models.SET_NULL,
-#         help_text="If selected, the document to be displayed in the iframe.  This will take precedence over anything entered in the iframe source field",
-#     )
-#     iframe_src = models.CharField(
-#         "iframe source",
-#         max_length=255,
-#         blank=True,
-#         help_text="If an iframe is to be displayed, the URL of an approved iframe source (must be listed in settings), optionally followed by a css height value",
-#     )
-#     iframe_height = models.CharField(
-#         "iframe height",
-#         max_length=20,
-#         blank=True,
-#         help_text="The height of the iframe using css height syntax.  Blank to use values set in stylesheets",
-#     )
-#     content_classes = models.CharField(
-#         max_length=255,
-#         blank=True,
-#         default="article-content uldoc",
-#         help_text="HTML classes to be applied to the content (default: article-content uldoc)",
-#     )
-#     content = models.TextField(
-#         blank=True,
-#         help_text="The content of the article.  Expected to usually include an iframe or series of iframes",
-#     )
-#     created_datetime = models.DateTimeField(
-#         "date/time created",
-#         auto_now_add=True,
-#         help_text="The date/time that this article was created",
-#     )
-#     updated_datetime = models.DateTimeField(
-#         "date/time updated",
-#         auto_now=True,
-#         help_text="The date/time that this article was updated",
-#     )
-#     publish_date = models.DateField(
-#         "published",
-#         default=date.today,
-#         help_text="The published date, which can be filled in by the editors.  Used for sorting when more than one article is in a rack.",
-#     )
-#     display = models.CharField(
-#         "display",
-#         max_length=2,
-#         choices=[
-#             ("Y", "Normal"),
-#             ("P", "Preview Only"),
-#             ("H", "Hide from Racks"),
-#             ("N", "Do not display"),
-#         ],
-#         default="Y",
-#         help_text="How the section should be displayed.  If hidden from racks, the article may still be found by other means",
-#     )
-
-#     def __str__(self):
-#         return self.title
-
-#     class Meta:
-#         ordering = ("-publish_date", "title")
-
-
 class RackArticle(models.Model):
     rack = models.ForeignKey(
         Rack,
@@ -423,15 +328,6 @@ class RackArticle(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         help_text="The rack that holds the article",
-    )
-    container = models.ForeignKey(
-        Article,
-        blank=True,
-        null=True,
-        limit_choices_to={"can_contain_articles": True},
-        on_delete=models.SET_NULL,
-        help_text="The container article that holds the target article",
-        related_name="to_target_article",
     )
     article = models.ForeignKey(
         Article,
