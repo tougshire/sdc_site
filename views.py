@@ -193,6 +193,15 @@ class ArticleDetail(DetailView):
     model = Article
     template_name = "sdc_site/edit/article_detail.html"
 
+    def get_context_data(self, **kwargs):
+
+        context_data = super().get_context_data(**kwargs)
+        context_data["labels"] = {
+            field.name: field._verbose_name
+            for field in Article._meta.get_fields()
+            if hasattr(field, "verbose_name")
+        }
+
 
 class ArticleDelete(DeleteView):
     model = Article
