@@ -4,11 +4,11 @@
 
     {% if perms.view_article %}
       {% if 'article-list' == request.resolver_match.url_name %}
-        <div class="menu-article menu-here">
-            <a href="{% url 'sdc_site:article-list' %}">List</a>
+        <div class="menu-article menu-list menu-here">
+            List
         </div>
       {% else %}
-        <div class="menu-article">
+        <div class="menu-article menu-list">
           <a href="{% url 'sdc_site:article-list' %}">List</a>
         </div>
       {% endif %}
@@ -16,11 +16,11 @@
 
     {% if perms.view_article %}
       {% if 'article-detail' == request.resolver_match.url_name %}
-        <div class="menu-article menu-here">
-            <a href="{% url 'sdc_site:article-detail' object.pk %}">View</a>
+        <div class="menu-article menu-detail menu-here">
+            View
         </div>
       {% elif object.pk %}
-        <div class="menu-article">
+        <div class="menu-article menu-detail">
           <a href="{% url 'sdc_site:article-detail' object.pk %}">View</a>
         </div>
       {% endif %}
@@ -28,12 +28,11 @@
 
     {% if perms.add_article %}
       {% if 'article-create' == request.resolver_match.url_name %}
-        <div class="menu-article menu-here">
-            <a href="{% url 'sdc_site:article-create' %}">Add</a>
+        <div class="menu-article menu-here menu-create">
+          <button form="form_article" class="menu-item" type="submit" >Submit</button></form>
         </div>
-
       {% else %}
-        <div class="menu-article">
+        <div class="menu-article menu-create">
           <a href="{% url 'sdc_site:article-create' %}">Add</a>
         </div>
       {% endif %}
@@ -41,13 +40,27 @@
 
     {% if perms.change_article %}
       {% if 'article-update' == request.resolver_match.url_name %}
-        <div class="menu-article menu-here">
-            <a href="{% url 'sdc_site:article-update' object.pk %}">Edit</a>
+        <div class="menu-article menu-update menu-here">
+          <button type="submit" form="form_article" class="menu-item menu-here" >Submit Changes</button>
         </div>
-
       {% elif object.pk %}
-        <div class="menu-article">
+        <div class="menu-article menu-update">
           <a href="{% url 'sdc_site:article-update' object.pk %}">Edit</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if perms.delete_article %}
+      {% if 'article-delete' == request.resolver_match.url_name %}
+        <div class="menu-article menu-delete menu-here">
+          <form method="POST" action="{% url 'sdc_site:article-delete' object.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="menu-item" >Confirm Delete</button>
+          </form>
+        </div>
+      {% elif object.pk %}
+        <div class="menu-article menu-delete">
+          <a href="{% url 'sdc_site:article-delete' object.pk %}">Delete</a>
         </div>
       {% endif %}
     {% endif %}
