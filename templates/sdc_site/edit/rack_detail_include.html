@@ -1,0 +1,17 @@
+  <h2>{{ object }}</h2>
+
+  <div class="detail">
+    {% include 'touglates/detail_field.html' with label="Slug" field=object.slug %}
+    {% include 'touglates/detail_field.html' with label="Title" field=object.title %}
+    {% include 'touglates/detail_field.html' with label="Section" field=object.section %}
+
+    <h3>Articles</h3>
+    {% for hanger in rack.hanger_set.all %}
+      {% include 'touglates/detail_field.html' with label="article" field=hanger.article  %}
+    {% endfor %}
+
+  </div>
+
+  <script>
+
+  </script>

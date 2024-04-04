@@ -87,7 +87,7 @@
             </div>
             <div>
                 {% if user.is_authenticated %}
-                <form method="POST" class="menu-item" action="{% url 'logout' %}?next={{ request.path }}">{% csrf_token %}<button type="submit">Log Out</button></form>
+                <form method="POST" class="menu-item" action="{% url 'logout' %}?next={{ request.path }}">{% csrf_token %}<button type="submit" class="menu-item">Log Out</button></form>
                 {% else %}
                 <a href="{% url 'login' %}?next={{ request.path }}">Log in</a>
                 {% endif %}

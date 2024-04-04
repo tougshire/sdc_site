@@ -1,0 +1,74 @@
+import django_filters
+from .models import Article, Rack
+from django.db import models
+from django import forms
+from django_filters_stoex.filters import CrossFieldSearchFilter
+
+
+class ArticleFilter(django_filters.FilterSet):
+
+    orderbyfields = django_filters.OrderingFilter(
+        fields=(
+            "title"
+            "author"
+            "slug"
+            "iframe_document"
+            "iframe_src"
+            "created_datetime"
+            "updated_datetime"
+            "publish_date"
+            "display"
+        ),
+    )
+
+    class Meta:
+        model = Article
+        fields = (
+            "title",
+            "show_title",
+            "author",
+            "slug",
+            "width",
+            "iframe_document",
+            "iframe_src",
+            "iframe_height",
+            "content",
+            "summary",
+            "if_summary_blank",
+            "created_datetime",
+            "updated_datetime",
+            "publish_date",
+            "display",
+        )
+
+
+class RackFilter(django_filters.FilterSet):
+    orderbyfields = django_filters.OrderingFilter(
+        fields=[
+            "section",
+            "title",
+            "show_title",
+            "slug",
+            "width",
+            "show_article_meta",
+            "content_before_articles",
+            "content_after_articles",
+            "order",
+            "display",
+        ]
+    )
+
+    class Meta:
+        model = Rack
+        fields = [
+            "section",
+            "title",
+            "show_title",
+            "slug",
+            "width",
+            "show_article_meta",
+            "content_before_articles",
+            "content_after_articles",
+            "order",
+            "display",
+        ]

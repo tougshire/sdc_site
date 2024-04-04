@@ -235,13 +235,6 @@ class Article(models.Model):
         unique=True,
         help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
     )
-    section = models.ForeignKey(
-        Section,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        help_text="The section to which the article belongs if directly attached to a section",
-    )
     width = models.IntegerField(
         "width",
         default=1,
@@ -321,7 +314,7 @@ class Article(models.Model):
         ordering = ("-publish_date", "title")
 
 
-class RackArticle(models.Model):
+class Hanger(models.Model):
     rack = models.ForeignKey(
         Rack,
         blank=True,

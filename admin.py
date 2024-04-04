@@ -4,7 +4,7 @@ from django.urls import reverse
 from .models import (
     Article,
     Document,
-    RackArticle,
+    Hanger,
     Rack,
     Menu,
     Menuitem,
@@ -61,8 +61,8 @@ class RackInline(admin.TabularInline):
     extra = 0
 
 
-class RackArticleInline(admin.TabularInline):
-    model = RackArticle
+class HangerInline(admin.TabularInline):
+    model = Hanger
     fk_name = "article"
     extra = 0
 
@@ -88,7 +88,7 @@ class ArticleAdmin(admin.ModelAdmin):
     form = ArticleModelForm
     prepopulated_fields = {"slug": ("title",)}
     inlines = [
-        RackArticleInline,
+        HangerInline,
     ]
 
     def save_model(self, request, obj, form, change):
@@ -101,7 +101,7 @@ class ArticleAdmin(admin.ModelAdmin):
                 slug=obj.slug,
                 section=form.cleaned_data["create_rack_to_section"],
             )
-            RackArticle.objects.create(
+            Hanger.objects.create(
                 rack=rack,
                 article=obj,
             )
@@ -155,7 +155,7 @@ class PageAdmin(admin.ModelAdmin):
 # class RackAdmin(admin.ModelAdmin):
 #     prepopulated_fields = {"slug": ("title",)}
 #     inlines = [
-#         RackArticleInline,
+#         HangerInline,
 #     ]
 
 
@@ -183,6 +183,6 @@ admin.site.register(Page, PageAdmin)
 admin.site.register(Rack)
 
 
-admin.site.register(RackArticle)
+admin.site.register(Hanger)
 
 admin.site.register(Section, SectionAdmin)

@@ -7,7 +7,7 @@
     color:white;
 }
 
-#sitemenu, #sitemenu a, #sitemenu a:visited, #sitemenu a:hover, form.menu-item button {
+#sitemenu, #sitemenu a, #sitemenu a:visited, #sitemenu a:hover, button.menu-item  {
     background-color: rgb(25, 25, 50);
     color:white;
 }
