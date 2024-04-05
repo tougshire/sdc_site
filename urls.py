@@ -31,11 +31,11 @@ urlpatterns = [
         views.RackView.as_view(),
         name="rack",
     ),
-    path("rack/create/", views.RackCreate.as_view(), name="rack-create"),
-    path("rack/update/<int:pk>/", views.RackUpdate.as_view(), name="rack-update"),
-    path("rack/delete/<int:pk>/", views.RackDelete.as_view(), name="rack-delete"),
-    path("rack/popup/", views.RackCreate.as_view(), name="rack-popup"),
-    path("rack/detail/<int:pk>/", views.RackDetail.as_view(), name="rack-detail"),
+    path("rack/edit/create/", views.RackCreate.as_view(), name="rack-create"),
+    path("rack/edit/update/<int:pk>/", views.RackUpdate.as_view(), name="rack-update"),
+    path("rack/edit/delete/<int:pk>/", views.RackDelete.as_view(), name="rack-delete"),
+    path("rack/edit/detail/<int:pk>/", views.RackDetail.as_view(), name="rack-detail"),
+    path("rack/edit/popup/", views.RackCreate.as_view(), name="rack-popup"),
     path("article/", views.ArticleList.as_view(), name="article-list"),
     path(
         "article/<int:pk>/",
@@ -47,14 +47,21 @@ urlpatterns = [
         views.ArticleView.as_view(),
         name="article",
     ),
-    path("article/create/", views.ArticleCreate.as_view(), name="article-create"),
+    path("article/edit/create/", views.ArticleCreate.as_view(), name="article-create"),
     path(
-        "article/update/<int:pk>/", views.ArticleUpdate.as_view(), name="article-update"
+        "article/edit/update/<int:pk>/",
+        views.ArticleUpdate.as_view(),
+        name="article-update",
     ),
     path(
-        "article/delete/<int:pk>/", views.ArticleDelete.as_view(), name="article-delete"
+        "article/edit/delete/<int:pk>/",
+        views.ArticleDelete.as_view(),
+        name="article-delete",
     ),
     path(
-        "article/detail/<int:pk>/", views.ArticleDetail.as_view(), name="article-detail"
+        "article/edit/detail/<int:pk>/",
+        views.ArticleDetail.as_view(),
+        name="article-detail",
     ),
+    path("article/edit/popup/", views.ArticleCreate.as_view(), name="article-popup"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
