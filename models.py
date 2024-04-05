@@ -62,7 +62,7 @@ class Section(models.Model):
     show_title = models.BooleanField(
         "show title",
         default=True,
-        help_text="If the title should be shown (if not blank)",
+        help_text="If the title of this section should be shown (if not blank)",
     )
     slug = models.SlugField(
         "name/slug",
@@ -84,7 +84,7 @@ class Section(models.Model):
         help_text="content to be displayed after the racks",
     )
     display = models.CharField(
-        "display",
+        "display when",
         max_length=2,
         choices=[("Y", "Normal"), ("P", "Preview Only"), ("N", "Do not display")],
         default="Y",
