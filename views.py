@@ -196,11 +196,13 @@ class ArticleDetail(DetailView):
     def get_context_data(self, **kwargs):
 
         context_data = super().get_context_data(**kwargs)
-        context_data["object_labels"] = {
-            field.name: field._verbose_name
+
+        context_data["article_labels"] = {
+            field.name: field.verbose_name.title()
             for field in Article._meta.get_fields()
-            if hasattr(field, "verbose_name")
+            if type(field).__name__[-3:] != "Rel"
         }
+
         return context_data
 
 
@@ -223,6 +225,13 @@ class ArticleList(PermissionRequiredMixin, FilterView):
         context_data["filterstore_retrieve"] = FilterstoreRetrieveForm()
         context_data["filterstore_save"] = FilterstoreSaveForm()
         context_data["as_csv"] = CSVOptionForm()
+
+        context_data["article_labels"] = {
+            field.name: field.verbose_name.title()
+            for field in Article._meta.get_fields()
+            if type(field).__name__[-3:] != "Rel"
+        }
+
         context_data["count"] = self.object_list.count()
 
         return context_data
@@ -373,6 +382,13 @@ class RackList(PermissionRequiredMixin, FilterView):
         context_data["filterstore_retrieve"] = FilterstoreRetrieveForm()
         context_data["filterstore_save"] = FilterstoreSaveForm()
         context_data["as_csv"] = CSVOptionForm()
+
+        context_data["rack_labels"] = {
+            field.name: field.verbose_name.title()
+            for field in Rack._meta.get_fields()
+            if type(field).__name__[-3:] != "Rel"
+        }
+
         context_data["count"] = self.object_list.count()
 
         return context_data
