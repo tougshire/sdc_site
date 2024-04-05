@@ -28,6 +28,9 @@ class ArticleForm(ModelForm):
             "display",
         ]
         widgets = {
+            "title": forms.TextInput(attrs={"class": "widthlong"}),
+            "slug": forms.TextInput(attrs={"class": "widthlong"}),
+            "iframe_src": forms.TextInput(attrs={"class": "widthlong"}),
             "summary": CKEditor5Widget(),
             "content": CKEditor5Widget(
                 config_name="extends", attrs={"style": "width:100%;"}
