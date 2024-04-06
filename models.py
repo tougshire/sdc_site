@@ -279,7 +279,12 @@ class Article(models.Model):
         default=1,
         help_text="What to display if the summary is blank",
     )
-
+    read_more = models.CharField(
+        max_length=50,
+        default="Read More",
+        blank=True,
+        help_text="Text to display in a read more link",
+    )
     created_datetime = models.DateTimeField(
         "date/time created",
         auto_now_add=True,
