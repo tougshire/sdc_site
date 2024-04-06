@@ -42,6 +42,12 @@ image {
     overflow-wrap:break-word;
 }
 
+.section::before {
+    content:" ";
+    display:block;
+    padding-top:1em;
+}
+
 .section::after {
     content:" ";
     display:block;
