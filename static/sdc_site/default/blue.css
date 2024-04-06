@@ -25,6 +25,11 @@
     background-color:#c7dbe2;
 }
 
-.section::after {
-    border-color:blue;
+div.rack-wrapper {
+    border-color:#00a7e0;
 }
+
+.section::after {
+    border-color:rgb(25, 25, 50);
+}
+

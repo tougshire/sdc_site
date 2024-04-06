@@ -34,7 +34,10 @@ image {
     text-decoration: none;
 }
 
-
+h1 a, h2 a, h3 a, h3 a, h5 a, h6 a{
+    text-decoration: none;
+    color:inherit;
+}
 
 .section {
     width:90%;
@@ -46,6 +49,12 @@ image {
     content:" ";
     display:block;
     padding-top:1em;
+}
+
+.section:first-child:before {
+    content:" ";
+    display:block;
+    padding-top:0;
 }
 
 .section::after {
