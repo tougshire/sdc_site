@@ -33,10 +33,23 @@ image {
     display:block;
     text-decoration: none;
 }
+
+
+
 .section {
     width:90%;
     margin:0 auto;
     overflow-wrap:break-word;
+}
+
+.section::after {
+    content:" ";
+    display:block;
+    padding-top:1em;
+    border-bottom: 1px solid black;
+    width:80%;
+    margin:0 auto;
+    text-align:center;
 }
 
 .content-note {

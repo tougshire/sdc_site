@@ -24,3 +24,7 @@
 .epigraph {
     background-color:#c7dbe2;
 }
+
+.section::after {
+    border-color:blue;
+}
