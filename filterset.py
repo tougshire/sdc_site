@@ -47,12 +47,6 @@ class RackFilter(django_filters.FilterSet):
         fields=[
             "section",
             "title",
-            "show_title",
-            "slug",
-            "width",
-            "show_article_meta",
-            "content_before_articles",
-            "content_after_articles",
             "order",
             "display",
         ]
@@ -63,12 +57,6 @@ class RackFilter(django_filters.FilterSet):
         fields = [
             "section",
             "title",
-            "show_title",
             "slug",
-            "width",
-            "show_article_meta",
-            "content_before_articles",
-            "content_after_articles",
-            "order",
             "display",
         ]

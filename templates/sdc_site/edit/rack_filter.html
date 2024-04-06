@@ -8,14 +8,14 @@
     <form method="POST">
       {% csrf_token %}
       {{ filter.form.as_table }}
-      {{ as_csv.as_table }}
-      {{ filterstore_save.as_table }}
+      <!-- {{ as_csv.as_table }} -->
+      <!-- {{ filterstore_save.as_table }} -->
       <tr><td>Search </td><td><input type="submit" />Search</td></tr>
     </form>
-    <form method="GET" action="{% url 'sdc_site:rack-list' %}">
+    <!-- <form method="GET" action="{% url 'sdc_site:rack-list' %}">
       {{ filterstore_retrieve.as_table }}
       <tr><td>Get Saved Filter </td><td><input type="submit" />Retrieve</td></tr>
-    </form>
+    </form> -->
   </table>
 </div>
 <div>
@@ -57,17 +57,20 @@
 
       </div>
 
-      {% for rack in filter.qs %}
+      {% for object in filter.qs %}
         <div class="row">
-          <div class="list-field field column"><a href="{% url 'sdc_site:rack-detail' rack.pk %}">view</a></div>
+          <div class="list-field field column">
+            <div><a href="{% url 'sdc_site:rack-detail' object.pk %}">view</a></div>
+            {% if perms.change_rack %}<div><a href="{% url 'sdc_site:rack-update' object.pk %}">edit</a></div>{% endif %}
+          </div>
           {% if 'slug' in show_columns or not show_columns %}
-            {% include 'touglates/list_field.html' with field=rack.slug %}
+            {% include 'touglates/list_field.html' with field=object.slug %}
           {% endif %}
           {% if 'title' in show_columns or not show_columns %}
-            {% include 'touglates/list_field.html' with field=rack.title %}
+            {% include 'touglates/list_field.html' with field=object.title %}
           {% endif %}
           {% if 'section' in show_columns or not show_columns %}
-            {% include 'touglates/list_field.html' with field=rack.section %}
+            {% include 'touglates/list_field.html' with field=object.section %}
           {% endif %}
 
         </div>

@@ -62,12 +62,3 @@
     <script>
       activateFormsetButtons(["hanger"])
     </script>
-    <script>
-      let title=document.getElementById("{{ form.title.id_for_label }}")
-      let slug=document.getElementById("{{ form.slug.id_for_label }}")
-      title.addEventListener('change', function() {
-        if (slug.value=="") {
-          slug.value=title.value.replace(/[- _]+/g, '').toLowerCase();
-        }
-      })
-    </script>

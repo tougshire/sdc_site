@@ -3,7 +3,7 @@
   {% if perms.sdc_site.view_article %}
     {% if 'article-' in request.resolver_match.url_name %}
       <div class="menu-article menu-here">
-        <a href="{% url 'sdc_site:article-list' %}">Articles</a>
+        Articles
       </div>
     {% else %}
       <div class="menu-article">
@@ -11,6 +11,8 @@
       </div>
     {% endif %}
   {% endif %}
+
+
   {% if perms.sdc_site.view_rack %}
     {% if 'rack-' in request.resolver_match.url_name %}
       <div class="menu-rack menu-here">
@@ -23,6 +25,32 @@
     {% endif %}
   {% endif %}
 
+
+  {% if perms.sdc_site.view_section %}
+    {% if 'section-' in request.resolver_match.url_name %}
+      <div class="menu-section menu-here">
+        Sections
+      </div>
+    {% else %}
+      <div class="menu-section">
+        <a href="{% url 'sdc_site:section-list' %}">Sections</a>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+
+  {% if perms.sdc_site.view_page %}
+    {% if 'page-' in request.resolver_match.url_name %}
+      <div class="menu-page menu-here">
+        Pages
+      </div>
+    {% else %}
+      <div class="menu-page">
+        <a href="{% url 'sdc_site:page-list' %}">Pages</a>
+      </div>
+    {% endif %}
+  {% endif %}
 
 
 

@@ -1,13 +1,14 @@
 from datetime import date
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class Page(models.Model):
     title = models.CharField(
         "title",
         blank=True,
-        max_length=100,
+        max_length=200,
         help_text="The title of the page. to be displayed (can be blank)",
     )
     show_title = models.BooleanField(
@@ -19,7 +20,7 @@ class Page(models.Model):
         "name/slug",
         max_length=100,
         unique=True,
-        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+        help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
 
     is_home = models.BooleanField(
@@ -56,7 +57,7 @@ class Section(models.Model):
     title = models.CharField(
         "title",
         blank=True,
-        max_length=100,
+        max_length=200,
         help_text="The title of the page. to be displayed (can be blank)",
     )
     show_title = models.BooleanField(
@@ -68,7 +69,7 @@ class Section(models.Model):
         "name/slug",
         max_length=100,
         unique=True,
-        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+        help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
     order = models.IntegerField(
         "order",
@@ -111,7 +112,7 @@ class Rack(models.Model):
     title = models.CharField(
         "title",
         blank=True,
-        max_length=100,
+        max_length=200,
         help_text="The title of the rack to be displayed (can be blank)",
     )
     show_title = models.BooleanField(
@@ -123,7 +124,7 @@ class Rack(models.Model):
         "name/slug",
         max_length=100,
         unique=True,
-        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+        help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
     width = models.IntegerField(
         "width",
@@ -188,7 +189,7 @@ class Rack(models.Model):
 class Document(models.Model):
     title = models.CharField(
         "title",
-        max_length=100,
+        max_length=200,
         blank=True,
         help_text="The title to be displayed with document.  It may or may not correspond to anything in the document itself. (can be blank)",
     )
@@ -201,8 +202,7 @@ class Document(models.Model):
         "name/slug",
         max_length=100,
         unique=True,
-        blank=True,
-        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+        help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
 
     doc_file = models.FileField(
@@ -219,7 +219,7 @@ class Document(models.Model):
 
 class Article(models.Model):
     title = models.CharField(
-        "title", max_length=100, help_text="The name of the article."
+        "title", max_length=200, help_text="The title of the article."
     )
     show_title = models.BooleanField(
         "show title",
@@ -233,7 +233,7 @@ class Article(models.Model):
         "name/slug",
         max_length=100,
         unique=True,
-        help_text="The name or slug for use in URLs and within the application (must be unique and conform to slug standards)",
+        help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
     width = models.IntegerField(
         "width",

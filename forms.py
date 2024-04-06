@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.forms import ModelForm, SelectDateWidget, inlineformset_factory, Select
 from django.urls import reverse_lazy
-from .models import Article, Rack, Hanger
+from .models import Article, Page, Rack, Hanger, Section
 from django import forms
 from touglates.widgets import TouglateRelatedSelect
 from django_ckeditor_5.widgets import CKEditor5Widget
@@ -31,10 +31,29 @@ class ArticleForm(ModelForm):
             "title": forms.TextInput(attrs={"class": "widthlong"}),
             "slug": forms.TextInput(attrs={"class": "widthlong"}),
             "iframe_src": forms.TextInput(attrs={"class": "widthlong"}),
-            "summary": CKEditor5Widget(),
+            "summary": CKEditor5Widget(
+                config_name="extends", attrs={"style": "width:100%;"}
+            ),
             "content": CKEditor5Widget(
                 config_name="extends", attrs={"style": "width:100%;"}
             ),
+        }
+
+
+class HangerForm(ModelForm):
+    class Meta:
+        fields = [
+            "rack",
+            "article",
+            "order",
+        ]
+        widgets = {
+            "rack": TouglateRelatedSelect(
+                related_data={
+                    "model": "Rack",
+                    "add_url": reverse_lazy("sdc_site:rack-popup"),
+                }
+            )
         }
 
 
@@ -55,22 +74,34 @@ class RackForm(ModelForm):
         ]
 
 
-class HangerForm(ModelForm):
+class SectionForm(ModelForm):
     class Meta:
+        model = Section
         fields = [
-            "rack",
-            "article",
+            "page",
+            "title",
+            "show_title",
+            "slug",
             "order",
+            "content_before_racks",
+            "content_after_racks",
+            "display",
         ]
-        widgets = {
-            "rack": TouglateRelatedSelect(
-                related_data={
-                    "model": "Rack",
-                    "add_url": reverse_lazy("sdc_site:rack-popup"),
-                }
-            )
-        }
+
+
+class PageForm(ModelForm):
+    class Meta:
+        model = Rack
+        fields = [
+            "title",
+            "show_title",
+            "slug",
+            "order",
+            "display",
+        ]
 
 
 ArticleHangerFormset = inlineformset_factory(Article, Hanger, form=HangerForm, extra=10)
 RackHangerFormset = inlineformset_factory(Rack, Hanger, form=HangerForm, extra=10)
+PageSectionFormset = inlineformset_factory(Page, Section, form=SectionForm, extra=10)
+SectionRackFormset = inlineformset_factory(Section, Rack, form=RackForm, extra=10)
