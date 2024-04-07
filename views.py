@@ -233,6 +233,7 @@ class PageView(DetailView):
     template_name = "{}/page.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
 
     def get_context_data(self, **kwargs):
+
         context_data = super().get_context_data(**kwargs)
 
         context_data["page_menus"] = Menu.objects.filter(
