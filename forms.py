@@ -4,7 +4,7 @@ from django.forms import ModelForm, SelectDateWidget, inlineformset_factory, Sel
 from django.urls import reverse_lazy
 from .models import Article, Page, Rack, Hanger, Section
 from django import forms
-from touglates.widgets import TouglateRelatedSelect
+from touglates.widgets import TouglateRelatedSelect, SlugInput
 from django_ckeditor_5.widgets import CKEditor5Widget
 
 
@@ -29,7 +29,9 @@ class ArticleForm(ModelForm):
         ]
         widgets = {
             "title": forms.TextInput(attrs={"class": "widthlong"}),
-            "slug": forms.TextInput(attrs={"class": "widthlong"}),
+            "slug": SlugInput(
+                slug_name="slug", input_name="title", attrs={"class": "widthlong"}
+            ),
             "iframe_src": forms.TextInput(attrs={"class": "widthlong"}),
             "summary": CKEditor5Widget(
                 config_name="extends", attrs={"style": "width:100%;"}
@@ -72,6 +74,12 @@ class RackForm(ModelForm):
             "order",
             "display",
         ]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "widthlong"}),
+            "slug": SlugInput(
+                slug_name="slug", input_name="title", attrs={"class": "widthlong"}
+            ),
+        }
 
 
 class SectionForm(ModelForm):
@@ -87,18 +95,31 @@ class SectionForm(ModelForm):
             "content_after_racks",
             "display",
         ]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "widthlong"}),
+            "slug": SlugInput(
+                slug_name="slug", input_name="title", attrs={"class": "widthlong"}
+            ),
+        }
 
 
 class PageForm(ModelForm):
     class Meta:
-        model = Rack
+        model = Page
         fields = [
             "title",
             "show_title",
             "slug",
+            "is_home",
             "order",
             "display",
         ]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "widthlong"}),
+            "slug": SlugInput(
+                slug_name="slug", input_name="title", attrs={"class": "widthlong"}
+            ),
+        }
 
 
 ArticleHangerFormset = inlineformset_factory(Article, Hanger, form=HangerForm, extra=10)
