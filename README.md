@@ -75,7 +75,33 @@ SDC_SITE_AVAILABLE = {
 SDC_SITE = SDC_SITE_AVAILABLE["default"]
 
 ```
+* add a path which includes "sdc_site.urls", and another which includes "touglates.urls" to your project's urls.py
+* add urls for ckeditor 5
 
+Example urls paths below.
+
+```
+from django.conf import settings
+from django.contrib import admin
+from django.urls import include, path
+from django.conf.urls.static import static
+
+
+urlpatterns = (
+    [
+        path("admin/", admin.site.urls),
+        path("site/", include("sdc_site.urls")),
+        path("touglates/", include("touglates.urls")),
+        path(
+            "ckeditor5/",
+            include("django_ckeditor_5.urls"),
+            name="ck_editor_5_upload_file",
+        ),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)
+```
 
 ## Help
 
