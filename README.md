@@ -22,12 +22,11 @@ SDC is the initials of someone who I was working for when I started on this proj
 
 ### Installing
 
-* SDC Site
 * Start Django Project
 * Clone SDC Site, Django Filters Stoex, and Touglates using git
 * * ex: git clone https://github.com/tougshire/sdc_site
 * * You do this from you project root directory - the one that holds your apps folders and your project settings folder
-* Install Django Filters and Django CKEDitor 5 with pip
+* Install Django Filters and Django CKEditor 5 with pip
 * * ex: pip install django-ckeditor-5
 
 ### Configuring
@@ -73,6 +72,9 @@ SDC_SITE_AVAILABLE = {
         },
     },
 }
+
+SDC_SITE = SDC_SITE_AVAILABLE["default"]
+
 ```
 
 
