@@ -108,11 +108,6 @@ class PageCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -169,11 +164,6 @@ class PageUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -303,11 +293,6 @@ class ArticleCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -364,11 +349,6 @@ class ArticleUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -470,11 +450,6 @@ class RackCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -531,11 +506,6 @@ class RackUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -624,11 +594,6 @@ class SectionCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -685,11 +650,6 @@ class SectionUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
