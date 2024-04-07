@@ -23,9 +23,8 @@ SDC is the initials of someone who I was working for when I started on this proj
 ### Installing
 
 * Start a Django Project
-* Clone SDC Site, Django Filters Stoex, and Touglates using git
-* * ex: git clone https://github.com/tougshire/sdc_site
-* * You do this from you project root directory - the one that holds your apps folders and your project settings folder
+* From your projecdt root folder (the one with manage.py in it), clone SDC Site, Django Filters Stoex, and Touglates using git
+* * ex: `git clone https://github.com/tougshire/sdc_site`
 * Install Django Filters and Django CKEditor 5 with pip
 * * ex: pip install django-ckeditor-5
 
