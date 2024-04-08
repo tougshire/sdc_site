@@ -2,7 +2,7 @@ import datetime
 from django.conf import settings
 from django.forms import ModelForm, SelectDateWidget, inlineformset_factory, Select
 from django.urls import reverse_lazy
-from .models import Article, Page, Rack, Hanger, Section
+from .models import Article, Articlecomment, Page, Rack, Hanger, Section
 from django import forms
 from touglates.widgets import TouglateRelatedSelect, SlugInput
 from django_ckeditor_5.widgets import CKEditor5Widget
@@ -120,6 +120,12 @@ class PageForm(ModelForm):
                 slug_name="slug", input_name="title", attrs={"class": "widthlong"}
             ),
         }
+
+
+class ArticlecommentForm(forms.ModelForm):
+    class Meta:
+        model = Articlecomment
+        fields = ("name", "email", "content")
 
 
 ArticleHangerFormset = inlineformset_factory(Article, Hanger, form=HangerForm, extra=10)

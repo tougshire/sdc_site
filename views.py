@@ -25,6 +25,7 @@ from sdc_site.filterset import ArticleFilter, RackFilter
 from sdc_site.forms import (
     ArticleForm,
     ArticleHangerFormset,
+    ArticlecommentForm,
     PageForm,
     PageSectionFormset,
     RackForm,
@@ -33,7 +34,7 @@ from sdc_site.forms import (
     SectionRackFormset,
 )
 from touglates.templatetags import touglates_tags as touglates
-from .models import Article, Menu, Page, Rack, Section
+from .models import Article, Articlecomment, Menu, Page, Rack, Section
 
 logger = logging.getLogger(__name__)
 
@@ -691,3 +692,12 @@ class SectionList(PermissionRequiredMixin, ListView):
         context_data["count"] = self.object_list.count()
 
         return context_data
+
+
+class ArticlecommentCreate(CreateView):
+    model = Articlecomment
+    form_class = ArticlecommentForm
+    template_name = "sdc_site/edit/articlecomment_create.html"
+
+    def get_success_url(self):
+        return reverse("sdc_site:article-view", kwargs={"pk": self.object.article.pk})
