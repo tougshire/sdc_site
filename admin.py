@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import reverse
 from .models import (
     Article,
+    Articlecomment,
     Document,
     Hanger,
     Rack,
@@ -107,6 +108,17 @@ class ArticleAdmin(admin.ModelAdmin):
             )
 
         return saved
+
+
+@admin.register(Articlecomment)
+class ArticlecommentAdmin(admin.ModelAdmin):
+    list_display = ("name", "content", "article", "when", "active")
+    list_filter = ("active", "when")
+    search_fields = ("name", "email", "content")
+    actions = ["approve_comments"]
+
+    def approve_comments(self, request, queryset):
+        queryset.update(active=True)
 
 
 class DocumentAdmin(admin.ModelAdmin):

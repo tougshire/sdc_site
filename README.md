@@ -103,6 +103,28 @@ urlpatterns = (
 )
 ```
 
+* Add `"sdc_site.context_processors.sdc_site"` to `TEMPLATES["OPTONS"]["context_processors"]`
+
+example TEMPLATES:
+
+```
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "sdc_site.context_processors.sdc_site",
+            ],
+        },
+    },
+]
+```
 ## Help
 
 This is still in early phases and much more has to be done.

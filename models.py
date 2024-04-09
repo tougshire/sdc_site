@@ -240,7 +240,6 @@ class Article(models.Model):
         default=1,
         help_text="For section display, the width of the article in multiples of how big it is compared to the narrowest article in the section",
     )
-
     iframe_document = models.ForeignKey(
         Document,
         blank=True,
@@ -419,3 +418,20 @@ class MenuPage(models.Model):
 
     def __str__(self):
         return '"{}" on page "{}"'.format(self.menu, self.page)
+
+
+class Articlecomment(models.Model):
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, related_name="comments"
+    )
+    name = models.CharField(max_length=80, help_text="Your name")
+    email = models.EmailField(help_text="Your email")
+    content = models.TextField()
+    when = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["when"]
+
+    def __str__(self):
+        return "Comment {} by {}".format(self.content, self.name)

@@ -25,6 +25,7 @@ from sdc_site.filterset import ArticleFilter, RackFilter
 from sdc_site.forms import (
     ArticleForm,
     ArticleHangerFormset,
+    ArticlecommentForm,
     PageForm,
     PageSectionFormset,
     RackForm,
@@ -33,7 +34,7 @@ from sdc_site.forms import (
     SectionRackFormset,
 )
 from touglates.templatetags import touglates_tags as touglates
-from .models import Article, Menu, Page, Rack, Section
+from .models import Article, Articlecomment, Menu, Page, Rack, Section
 
 logger = logging.getLogger(__name__)
 
@@ -108,11 +109,6 @@ class PageCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -169,11 +165,6 @@ class PageUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -233,6 +224,7 @@ class PageView(DetailView):
     template_name = "{}/page.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
 
     def get_context_data(self, **kwargs):
+
         context_data = super().get_context_data(**kwargs)
 
         context_data["page_menus"] = Menu.objects.filter(
@@ -302,11 +294,6 @@ class ArticleCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -363,11 +350,6 @@ class ArticleUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -469,11 +451,6 @@ class RackCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -530,11 +507,6 @@ class RackUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -623,11 +595,6 @@ class SectionCreate(CreateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -684,11 +651,6 @@ class SectionUpdate(UpdateView):
                 formsetdata[formsetkey].save()
             else:
                 logger.critical(formsetdata[formsetkey].errors)
-                for err in formsetdata[formsetkey].errors:
-                    form.add_error(None, err)
-                    for formsetform in formsetdata[formsetkey].forms:
-                        for err in formsetform.errors:
-                            form.add_error(None, err)
                 formsets_valid = False
 
         if not formsets_valid:
@@ -730,3 +692,12 @@ class SectionList(PermissionRequiredMixin, ListView):
         context_data["count"] = self.object_list.count()
 
         return context_data
+
+
+class ArticlecommentCreate(CreateView):
+    model = Articlecomment
+    form_class = ArticlecommentForm
+    template_name = "sdc_site/edit/articlecomment_create.html"
+
+    def get_success_url(self):
+        return reverse("sdc_site:article-view", kwargs={"pk": self.object.article.pk})
