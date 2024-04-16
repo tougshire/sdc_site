@@ -24,7 +24,7 @@
     {{ hangers.management_form }}
     {% if hangers.errors %}{{ hangers.errors }}{% endif %}
     {% for hangerform in hangers.forms %}
-      {% if hangersform.errors %}{{ hangerform.errors }}{% endif %}
+      {% if hangerform.errors %}{{ hangerform.errors }}{% endif %}
       {% if hangerform.id.value  %}
         <div id="div_hangerform_{{ hangerform.id.value }}" class="hangerformsetform formsetform"  >
           {% for hiddenfield in hangerform.hidden_fields %}
