@@ -223,6 +223,18 @@ class PageView(DetailView):
     model = Page
     template_name = "{}/page.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
 
+    def get_queryset(self):
+
+        queryset = super().get_queryset()
+        for page in queryset:
+            for section in page.section_set.all():
+                for rack in section.rack_set.all():
+                    for hanger in rack.hanger_set.all():
+                        if not hanger.article.display == "Y":
+                            rack.hanger_set.remove(hanger)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
 
         context_data = super().get_context_data(**kwargs)
