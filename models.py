@@ -91,6 +91,9 @@ class Section(models.Model):
         default="Y",
         help_text="How the section should be displayed",
     )
+    collapse = models.BooleanField(
+        "collapse", default=True, help_text="Collapse if there are no racks"
+    )
 
     def __str__(self):
         return '"{}" on page "{}"'.format(
@@ -171,6 +174,9 @@ class Rack(models.Model):
         ],
         default="Y",
         help_text="How the rack should be displayed. Racks that are hidden from sections may still be displayed independently",
+    )
+    collapse = models.BooleanField(
+        "collapse", default=True, help_text="Collapse if there are no hangers/articles"
     )
 
     def __str__(self):

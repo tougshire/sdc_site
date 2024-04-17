@@ -232,6 +232,10 @@ class PageView(DetailView):
                     for hanger in rack.hanger_set.all():
                         if not hanger.article.display == "Y":
                             rack.hanger_set.remove(hanger)
+                    if not rack.hanger_set.exists():
+                        section.rack_set.remove(rack)
+                if not section.rack_set.exists():
+                    page.section_set.remove(section)
 
         return queryset
 
