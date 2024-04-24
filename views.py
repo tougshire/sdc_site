@@ -17,7 +17,6 @@ from django.views.generic import (
     UpdateView,
 )
 from django_filters_stoex.forms import (
-    CSVOptionForm,
     FilterstoreRetrieveForm,
     FilterstoreSaveForm,
 )
@@ -411,7 +410,6 @@ class ArticleList(PermissionRequiredMixin, FilterView):
 
         context_data["filterstore_retrieve"] = FilterstoreRetrieveForm()
         context_data["filterstore_save"] = FilterstoreSaveForm()
-        context_data["as_csv"] = CSVOptionForm()
 
         context_data["object_labels"] = get_modelfields_labels(Page)
 
@@ -560,7 +558,6 @@ class RackList(PermissionRequiredMixin, FilterView):
 
         context_data["filterstore_retrieve"] = FilterstoreRetrieveForm()
         context_data["filterstore_save"] = FilterstoreSaveForm()
-        context_data["as_csv"] = CSVOptionForm()
 
         context_data["object_labels"] = get_modelfields_labels(Page)
 
