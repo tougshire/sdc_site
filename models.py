@@ -338,7 +338,6 @@ class Hanger(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         help_text="The article held by the containing article",
-        related_name="to_containing_article",
     )
     order = models.IntegerField(
         "order",
