@@ -39,6 +39,11 @@ h1 a, h2 a, h3 a, h3 a, h5 a, h6 a{
     color:inherit;
 }
 
+.article_content {
+    overflow:auto;
+    margin:auto 10% auto 10%;
+}
+
 .section {
     width:90%;
     margin:0 auto;
@@ -98,6 +103,34 @@ h1 a, h2 a, h3 a, h3 a, h5 a, h6 a{
     font-weight:normal;
 }
 
+.width1, .width10 {
+    width:10%;
+}
+.width2, .width20 {
+    width:20%;
+}
+.width3, .width30 {
+    width:30%;
+}
+.width4, .width40 {
+    width:40%;
+}
+.width5, .width50 {
+    width:50%;
+}
+.width6, .width60 {
+    width:60%;
+}
+.width7, .width70 {
+    width:70%;
+}
+.width8, .width80 {
+    width:80%;
+}
+.width9, .width90 {
+    width:90%;
+}
+
 .uldoc > ul > li li li {
     list-style-type:disc;
 }
@@ -111,6 +144,23 @@ iframe {
     border:none;
     width:90%;
 }
+
+img {
+    display:block;
+    max-width:90%;
+    margin:0 auto;
+}
+
+img.left {
+    float:left;
+    margin-left:10%;
+}
+
+img.right {
+    float:right;
+    margin-right:10%;
+}
+
 
 @media only screen and (min-width: 600px) {
 

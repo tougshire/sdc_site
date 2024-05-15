@@ -2,20 +2,20 @@
 {% load touglates_tags %}
 {% load sdc_site_extras %}
 {% block content %}
-{% for section in sections %}
-  {% if section.racks|length > 0 %}
+{% for section in object.section_set.all %}
+  {% if section.rack_set.count > 0 %}
     <div class="section">
       {% if section.title and section.show_title %}
         <h2>{{ section.title }}</h2>
       {% endif %}
       {% if section.content_before_racks %}
-        <div class="secfion_content">
+        <div class="section_content">
         {{ section.content_before_racks|safe }}
         </div>
       {% endif %}
       <div class="racks">
-        {% for rack in section.racks %}
-          {% if rack.hangers|length > 0 %}
+        {% for rack in section.rack_set.all %}
+          {% if rack.hanger_set.count > 0 %}
             <div class="rack-wrapper" data-width="{{ rack.width }}">
               <div class="rack" id="rack_{{ rack.pk }}">
                 {% if rack.title and rack.show_title %}
@@ -26,7 +26,7 @@
                     {{ rack.content_before_articles|safe }}
                   </div>
                 {% endif %}
-                {% for hanger in rack.hangers %}
+                {% for hanger in rack.hanger_set.all %}
                   <div class="article" id="hanger.article_{{ article.pk }}">
                     {% if hanger.article.summary %}
                       <h3><a href="{% url 'sdc_site:article' hanger.article.pk %}">{{ hanger.article.title }}</a></h3>
@@ -59,9 +59,9 @@
                     {% endif %}
                   </div>
                 {% endfor %}
-                {% if rack.content_after_articles %}
+                {% if rack.content_below_articles %}
                   <div class="rack-content">
-                    {{ rack.content_after_articles|safe }}
+                    {{ rack.content_below_articles|safe }}
                   </div>
                 {% endif %}
 
@@ -70,9 +70,9 @@
           {% endif %}
         {% endfor %}
       </div>
-      {% if section.content_after_racks %}
+      {% if section.content_below_racks %}
         <div class="section_content">
-        {{ section.content_after_racks|safe }}
+        {{ section.content_below_racks|safe }}
         </div>
       {% endif %}
 

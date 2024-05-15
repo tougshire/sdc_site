@@ -16,7 +16,7 @@ SDC is the initials of someone who I was working for when I started on this proj
 * Touglates: [https://github.com/tougshire/touglates](https://github.com/tougshire/touglates).
 * Django Filters Stoex: [https://github.com/tougshire/django_filters_stoex](https://github.com/tougshire/django_filters_stoex)
 * Django Filters: [https://pypi.org/project/django-filter/](https://pypi.org/project/django-filter/)
-* Django CKEditor 5: [https://pypi.org/project/django-ckeditor-5/](https://pypi.org/project/django-ckeditor-5/)
+<!-- * Django C_KEditor 5: [https://pypi.org/project/django-c_keditor-5/](https://pypi.org/project/django-c_keditor-5/) -->
 * Django Markdown: [https://pypi.org/project/django-markdown/](https://pypi.org/project/django-markdown/)
 * This repository, SDC Site: [https://github.com/tougshire/sdc_site](https://github.com/tougshire/sdc_site)
 
@@ -25,12 +25,13 @@ SDC is the initials of someone who I was working for when I started on this proj
 * Start a Django Project
 * From your projecdt root folder (the one with manage.py in it), clone SDC Site, Django Filters Stoex, and Touglates using git
 * * ex: `git clone https://github.com/tougshire/sdc_site`
-* Install Django Filters and Django CKEditor 5 with pip
-* * ex: pip install django-ckeditor-5
+* Install Django Filters with pip
+<!-- * Install Django Filters and Django C_KEditor 5 with pip -->
 
 ### Configuring
 
-Follow the examples in the documentation for Django Filters and Django CKEDitor 5. You don't have to configure Django Markdown for this project, but it's included because Touglates requires it.
+<!-- Follow the examples in the documentation for Django Filters and Django C_KEDitor 5. You don't have to configure Django Markdown  -->
+Follow the examples in the documentation for Django Filters.
 
 Your installed apps should look something like:
 
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     "touglates.apps.TouglatesConfig",
     "django_filters",
     "django_filters_stoex.apps.DjangoFiltersStoexConfig",
-    "django_ckeditor_5",
+    <!-- "django_c_keditor_5", -->
     "sdc_site.apps.SdcSiteConfig",
 ]
 ```
@@ -76,7 +77,7 @@ SDC_SITE = SDC_SITE_AVAILABLE["default"]
 
 ```
 * add a path which includes "sdc_site.urls", and another which includes "touglates.urls" to your project's urls.py
-* add urls for ckeditor 5
+<!-- * add urls for c_keditor 5 -->
 
 Example urls paths below.
 
@@ -92,11 +93,11 @@ urlpatterns = (
         path("admin/", admin.site.urls),
         path("site/", include("sdc_site.urls")),
         path("touglates/", include("touglates.urls")),
-        path(
-            "ckeditor5/",
-            include("django_ckeditor_5.urls"),
-            name="ck_editor_5_upload_file",
-        ),
+        <!-- path(
+            "c_keditor5/",
+            include("django_c_keditor_5.urls"),
+            name="c_k_editor_5_upload_file",
+        ), -->
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

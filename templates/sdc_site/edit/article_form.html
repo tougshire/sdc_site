@@ -58,8 +58,62 @@
 
     <button type="Submit">Submit</button>
     </form>
+
+    For this image:<br/> {{ form.image_select }}<br/>
+    optionally with these classes:<br/>
+    <select id="ctl_imagewidth"><option value="">---</option>
+      <option value=".width10">width: 10%</option>
+      <option value=".width20">width: 20%</option>
+      <option value=".width30">width: 30%</option>
+      <option value=".width40">width: 40%</option>
+      <option value=".width50">width: 50%</option>
+      <option value=".width60">width: 60%</option>
+      <option value=".width70">width: 70%</option>
+      <option value=".width80">width: 80%</option>
+      <option value=".width90">width: 90%</option>
+    </select>
+    <select id="ctl_imagefloat"><option value="">---</option>
+      <option value=".left">left</option>
+      <option value=".right">right</option>
+    </select>
+    <br/>
+    use this code:<textarea class="widthlong" id="ctl_imagecode"></textarea>
   </div>
+  <div id="div_imagepreview"></div>
 
   <script>
     activateFormsetButtons(["hanger",])
+  </script>
+  <script>
+    function generateImageCode(){
+      fullCode=""
+      imageClasses=""
+      imageCode=document.getElementById("id_image_select").value
+      if(imageCode) {
+        imageClasses = (document.getElementById("ctl_imagewidth").value + " " + document.getElementById("ctl_imagefloat").value).trim()
+        if (imageClasses) {
+          imageClasses="{" + imageClasses + "}"
+        }
+        fullCode = imageCode + imageClasses
+      }
+      document.getElementById("ctl_imagecode").value=fullCode
+    }
+    function generateImagePreview(){
+      fullCode=""
+      imageClasses=""
+      imageCode=document.getElementById("id_image_select").value
+      if(imageCode) {
+        imageClasses = (document.getElementById("ctl_imagewidth").value + " " + document.getElementById("ctl_imagefloat").value).trim()
+        if (imageClasses) {
+          imageClasses="{" + imageClasses + "}"
+        }
+        fullCode = imageCode + imageClasses
+      }
+      document.getElementById("div_imagepreview").innerHTML="<img src='" + im
+    }
+
+    document.getElementById("id_image_select").addEventListener("change", generateImageCode)
+    document.getElementById("ctl_imagewidth").addEventListener("change", generateImageCode)
+    document.getElementById("ctl_imagefloat").addEventListener("change", generateImageCode)
+
   </script>

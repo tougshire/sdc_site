@@ -440,3 +440,31 @@ class Articlecomment(models.Model):
 
     def __str__(self):
         return "Comment {} by {}".format(self.content, self.name)
+
+
+class Sdcimage(models.Model):
+
+    imagefile = models.ImageField("file", upload_to="sdc_siteimages")
+    name = models.CharField(
+        "name",
+        max_length=20,
+        unique=True,
+        help_text="The name to be used by authors to identify the image",
+    )
+    alt_text = models.TextField(
+        "alt text",
+        help_text="The default alt-text to be redered in the template.  This is the text displayed for the visually impaired",
+    )
+    title = models.CharField(
+        "title",
+        max_length=80,
+        blank=True,
+        help_text="The default title of the image to be used in rendering.  This is a tool-tip that appears when the user holds the mouse pointer over the image",
+    )
+
+    @property
+    def markdown_code(self):
+        return "![{}]({})".format(self.alt_text, self.imagefile.url)
+
+    def __str__(self):
+        return self.name

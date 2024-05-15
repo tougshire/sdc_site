@@ -11,10 +11,12 @@ from .models import (
     Menuitem,
     MenuPage,
     Page,
+    Sdcimage,
     Section,
     Tag,
 )
-from django_ckeditor_5.widgets import CKEditor5Widget
+
+# from django_c_keditor_5.widgets import C_KEditor5Widget
 from django.conf import settings
 
 
@@ -25,7 +27,8 @@ class ArticleModelForm(forms.ModelForm):
         help_text="If selected, create a new rack for this article in the selected section",
     )
     content = forms.CharField(
-        required=False, widget=CKEditor5Widget(config_name="extends")
+        required=False
+        # required=False, widget=C_KEditor5Widget(config_name="extends")
     )
 
 
@@ -178,6 +181,10 @@ class SectionAdmin(admin.ModelAdmin):
     ]
 
 
+class SdcimageAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(Article, ArticleAdmin)
 
 admin.site.register(Document, DocumentAdmin)
@@ -194,7 +201,8 @@ admin.site.register(Page, PageAdmin)
 
 admin.site.register(Rack)
 
-
 admin.site.register(Hanger)
+
+admin.site.register(Sdcimage, SdcimageAdmin)
 
 admin.site.register(Section, SectionAdmin)

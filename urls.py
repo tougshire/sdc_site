@@ -88,4 +88,6 @@ urlpatterns = [
         name="article-detail",
     ),
     path("article/edit/popup/", views.ArticleCreate.as_view(), name="article-popup"),
+    path("image/edit/popup/", views.SdcimageCreate.as_view(), name="sdcimage-popup"),
+    path("image/<int:pk>/", views.SdcimageDetail.as_view(), name="sdcimage-detail"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

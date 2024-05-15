@@ -2,13 +2,25 @@ import datetime
 from django.conf import settings
 from django.forms import ModelForm, SelectDateWidget, inlineformset_factory, Select
 from django.urls import reverse_lazy
-from .models import Article, Articlecomment, Page, Rack, Hanger, Section
+from .models import Article, Articlecomment, Sdcimage, Page, Rack, Hanger, Section
 from django import forms
 from touglates.widgets import TouglateRelatedSelect, SlugInput
-from django_ckeditor_5.widgets import CKEditor5Widget
+
+# from django_c_keditor_5.widgets import C_KEditor5Widget
 
 
 class ArticleForm(ModelForm):
+    image_select = forms.ModelChoiceField(
+        required=False,
+        queryset=Sdcimage.objects.all(),
+        to_field_name="markdown_code",
+        widget=TouglateRelatedSelect(
+            related_data={
+                "model": "Sdcimage",
+                "add_url": reverse_lazy("sdc_site:sdcimage-popup"),
+            },
+        ),
+    )
 
     class Meta:
         model = Article
@@ -27,18 +39,21 @@ class ArticleForm(ModelForm):
             "publish_date",
             "display",
         ]
+
         widgets = {
             "title": forms.TextInput(attrs={"class": "widthlong"}),
             "slug": SlugInput(
                 slug_name="slug", input_name="title", attrs={"class": "widthlong"}
             ),
             "iframe_src": forms.TextInput(attrs={"class": "widthlong"}),
-            "summary": CKEditor5Widget(
-                config_name="extends", attrs={"style": "width:100%;"}
-            ),
-            "content": CKEditor5Widget(
-                config_name="extends", attrs={"style": "width:100%;"}
-            ),
+            "summary": forms.TextInput(attrs={"class": "widthlong"}),
+            # "summary": C_KEditor5Widget(
+            #     config_name="extends", attrs={"style": "width:100%;"}
+            # ),
+            "content": forms.Textarea(attrs={"class": "widthlong"}),
+            # "content": C_KEditor5Widget(
+            #     config_name="extends", attrs={"style": "width:100%;"}
+            # ),
         }
 
 
@@ -126,6 +141,12 @@ class ArticlecommentForm(forms.ModelForm):
     class Meta:
         model = Articlecomment
         fields = ("name", "email", "content")
+
+
+class SdcimageForm(forms.ModelForm):
+    class Meta:
+        model = Sdcimage
+        fields = ("imagefile", "name", "alt_text", "title")
 
 
 ArticleHangerFormset = inlineformset_factory(Article, Hanger, form=HangerForm, extra=10)

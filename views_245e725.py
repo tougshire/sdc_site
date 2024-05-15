@@ -223,53 +223,25 @@ class PageView(DetailView):
     model = Page
     template_name = "{}/page.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
 
+    def get_queryset(self):
+
+        queryset = super().get_queryset()
+        for page in queryset:
+            for section in page.section_set.all():
+                for rack in section.rack_set.all():
+                    for hanger in rack.hanger_set.all():
+                        if not hanger.article.display == "Y":
+                            rack.hanger_set.remove(hanger)
+                    if not rack.hanger_set.exists():
+                        section.rack_set.remove(rack)
+                if not section.rack_set.exists():
+                    page.section_set.remove(section)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
-        md = markdown.Markdown(extensions=["fenced_code", "extra"])
 
         context_data = super().get_context_data(**kwargs)
-
-        sections = []
-        for object_section in context_data["object"].section_set.all():
-
-            racks = []
-            for object_rack in object_section.rack_set.all():
-                hangers = []
-                for hanger in object_rack.hanger_set.all():
-                    if hanger.article.display == "Y":
-                        hangers.append(
-                            {
-                                "pk": hanger.pk,
-                                "article": {
-                                    "pk": hanger.article.pk,
-                                    "summary": md.convert(hanger.article.summary),
-                                    "content": md.convert(hanger.article.content),
-                                    "if_summary_blank": hanger.article.if_summary_blank,
-                                    "author": hanger.article.author,
-                                },
-                            }
-                        )
-                if hangers:
-                    racks.append(
-                        {
-                            "pk": object_rack.pk,
-                            "width": object_rack.width,
-                            "content_before_racks": object_rack.content_before_articles,
-                            "content_after_racks": object_rack.content_after_articles,
-                            "hangers": hangers,
-                        }
-                    )
-            if racks:
-                sections.append(
-                    {
-                        "pk": object_section.pk,
-                        "title": object_section.title,
-                        "show_title": object_section.show_title,
-                        "content_before_racks": object_section.content_before_racks,
-                        "content_after_racks": object_section.content_after_racks,
-                        "racks": racks,
-                    }
-                )
-        context_data["sections"] = sections
 
         context_data["page_menus"] = Menu.objects.filter(
             menupage__page=self.get_object()
