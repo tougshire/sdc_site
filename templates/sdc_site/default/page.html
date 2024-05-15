@@ -28,8 +28,12 @@
                 {% endif %}
                 {% for hanger in rack.hangers %}
                   <div class="article" id="hanger.article_{{ article.pk }}">
+
                     {% if hanger.article.summary %}
-                      <h3><a href="{% url 'sdc_site:article' hanger.article.pk %}">{{ hanger.article.title }}</a></h3>
+                      {% if hanger.article.title and hanger.article.show_title %}
+                        <a href="{% url 'sdc_site:article' hanger.article.pk %}">{{ hanger.article.title }}</a>
+                      {% endif %}
+
                       <div class="{{ hanger.article.content_classes }}" >
                         {% if hanger.article.author.is_staff  %}
                           {{ hanger.article.summary|safe }}
@@ -41,7 +45,10 @@
                         {% endif %}
                       </div>
                     {% else %}
-                      <h3><a href="{% url 'sdc_site:article' hanger.article.pk %}">{{ hanger.article.title }}</a></h3>
+                      {% if hanger.article.title and hanger.article.show_title %}
+                        <h3><a href="{% url 'sdc_site:article' hanger.article.pk %}">{{ hanger.article.title }}</a></h3>
+                      {% endif %}
+
                       <div class="{{ hanger.article.content_classes }}" >
                         {% if hanger.article.if_summary_blank == 1 %}
                           {% if hanger.article.author.is_staff  %}

@@ -256,6 +256,8 @@ class PageView(DetailView):
                                     "publish_date": object_hanger.article.publish_date,
                                     "content_classes": object_hanger.article.content_classes,
                                     "read_more": object_hanger.article.read_more,
+                                    "title": object_hanger.article.title,
+                                    "show_title": object_hanger.article.show_title,
                                     "summary": md.convert(
                                         object_hanger.article.summary
                                     ),
@@ -475,6 +477,34 @@ class ArticleList(PermissionRequiredMixin, FilterView):
 class ArticleView(DetailView):
     model = Article
     template_name = "{}/article.html".format(settings.SDC_SITE["TEMPLATE_DIR"])
+
+    def get_context_data(self, *args, **kwargs):
+        md = markdown.Markdown(extensions=["fenced_code", "extra"])
+
+        context_data = super().get_context_data(*args, **kwargs)
+
+        article = {
+            "pk": context_data["object"].pk,
+            "slug": context_data["object"].slug,
+            "author": context_data["object"].author,
+            "created_datetime": context_data["object"].created_datetime,
+            "updated_datetime": context_data["object"].updated_datetime,
+            "publish_date": context_data["object"].publish_date,
+            "content_classes": context_data["object"].content_classes,
+            "read_more": context_data["object"].read_more,
+            "title": context_data["object"].title,
+            "show_title": context_data["object"].show_title,
+            "summary": md.convert(context_data["object"].summary),
+            "content": md.convert(context_data["object"].content),
+            "if_summary_blank": context_data["object"].if_summary_blank,
+            "iframe_document": context_data["object"].iframe_document,
+            "iframe_src": context_data["object"].iframe_src,
+            "iframe_height": context_data["object"].iframe_height,
+        }
+        context_data["article"] = article
+        context_data["object"] = article
+
+        return context_data
 
 
 class RackCreate(CreateView):
