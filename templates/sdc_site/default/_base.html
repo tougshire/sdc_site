@@ -3,11 +3,12 @@
 
 <html>
     <head>
-      <meta property="og:title" content="{{ object.headline|safe  }}" />
-      {% if object.featured_image %}
-          <meta property="og:image" content="{{ object.featured_image.imagefile.url  }}" />
-          <meta property="og:image:alt" content="{{ object.featured_image.alt_text  }}" />
-          <meta property="og:description" content="{{ object.summary }}" />
+      {% if object %}
+        <meta property="og:title" content="{{ object.title|safe  }}" />
+        {% if object.featured_image %}
+            <meta property="og:image" content="{{ object.featured_image.imagefile.url  }}" />
+            <meta property="og:image:alt" content="{{ object.featured_image.alt_text  }}" />
+        {% endif %}
       {% else %}
           {% if 'keyed_head_lines' in sdc_site %}
               {% if 'og_image' in sdc_site.keyed_head_lines %}
@@ -21,7 +22,9 @@
 
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ sdc_site.SITE_NAME }}</title>
+        <title>
+          {% if object.title %}{{ object.title | safe }}: {% endif %}{{ sdc_site.SITE_NAME }}
+        </title>
         <link rel="stylesheet" href="{% static sdc_site.STATIC_DIR|add:'/sdc_site.css' %}">
         {% if sdc_site.COLORSCHEME %}
           <link rel="stylesheet" href="{% static sdc_site.STATIC_DIR|add:'/'|add:sdc_site.COLORSCHEME|add:'.css' %}">
