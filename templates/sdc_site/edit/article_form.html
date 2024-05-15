@@ -12,7 +12,7 @@
       {% include 'touglates/form_field.html' with field=form.width %}
       {% include 'touglates/form_field.html' with field=form.iframe_document %}
       {% include 'touglates/form_field.html' with field=form.iframe_src %}
-      {% include 'touglates/form_field.html' with field=form.iframe_heighte %}
+      {% include 'touglates/form_field.html' with field=form.iframe_height %}
       {% include 'touglates/form_field.html' with field=form.content %}
       {% include 'touglates/form_field.html' with field=form.summary %}
       {% include 'touglates/form_field.html' with field=form.if_summary_blank %}
@@ -31,6 +31,7 @@
             {{ hiddenfield }}
           {% endfor %}
           {% include 'touglates/form_field.html' with field=hangerform.rack %}
+          {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
           {% include 'touglates/form_field.html' with field=hangerform.order %}
           {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
         </div>
@@ -41,6 +42,7 @@
           {% endfor %}
           {% include 'touglates/form_field.html' with field=hangerform.rack %}
           {% include 'touglates/form_field.html' with field=hangerform.order %}
+          {% include 'touglates/form_field.html' with field=hangerform.expiration_date %}
           {% include 'touglates/form_field.html' with field=hangerform.DELETE %}
         </div>
       {% endif %}

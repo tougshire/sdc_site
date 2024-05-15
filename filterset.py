@@ -9,15 +9,15 @@ class ArticleFilter(django_filters.FilterSet):
 
     orderbyfields = django_filters.OrderingFilter(
         fields=(
-            "title"
-            "author"
-            "slug"
-            "iframe_document"
-            "iframe_src"
-            "created_datetime"
-            "updated_datetime"
-            "publish_date"
-            "display"
+            "title",
+            "author",
+            "slug",
+            "iframe_document",
+            "iframe_src",
+            "created_datetime",
+            "updated_datetime",
+            "publish_date",
+            "display",
         ),
     )
 
@@ -28,10 +28,8 @@ class ArticleFilter(django_filters.FilterSet):
             "show_title",
             "author",
             "slug",
-            "width",
             "iframe_document",
             "iframe_src",
-            "iframe_height",
             "content",
             "summary",
             "if_summary_blank",

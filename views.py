@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from django.db.models.query import QuerySet
 from django_filters_stoex.views import FilterView
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -234,17 +235,37 @@ class PageView(DetailView):
             racks = []
             for object_rack in object_section.rack_set.all():
                 hangers = []
-                for hanger in object_rack.hanger_set.all():
-                    if hanger.article.display == "Y":
+                for object_hanger in object_rack.hanger_set.all():
+                    if (
+                        object_hanger.article.display == "Y"
+                        and object_hanger.article.publish_date <= date.today()
+                        and (
+                            object_hanger.expiration_date is None
+                            or object_hanger.expiration_date > date.today()
+                        )
+                    ):
                         hangers.append(
                             {
-                                "pk": hanger.pk,
+                                "pk": object_hanger.pk,
                                 "article": {
-                                    "pk": hanger.article.pk,
-                                    "summary": md.convert(hanger.article.summary),
-                                    "content": md.convert(hanger.article.content),
-                                    "if_summary_blank": hanger.article.if_summary_blank,
-                                    "author": hanger.article.author,
+                                    "pk": object_hanger.article.pk,
+                                    "slug": object_hanger.article.slug,
+                                    "author": object_hanger.article.author,
+                                    "created_datetime": object_hanger.article.created_datetime,
+                                    "updated_datetime": object_hanger.article.updated_datetime,
+                                    "publish_date": object_hanger.article.publish_date,
+                                    "content_classes": object_hanger.article.content_classes,
+                                    "read_more": object_hanger.article.read_more,
+                                    "summary": md.convert(
+                                        object_hanger.article.summary
+                                    ),
+                                    "content": md.convert(
+                                        object_hanger.article.content
+                                    ),
+                                    "if_summary_blank": object_hanger.article.if_summary_blank,
+                                    "iframe_document": object_hanger.article.iframe_document,
+                                    "iframe_src": object_hanger.article.iframe_src,
+                                    "iframe_height": object_hanger.article.iframe_height,
                                 },
                             }
                         )
@@ -253,8 +274,10 @@ class PageView(DetailView):
                         {
                             "pk": object_rack.pk,
                             "width": object_rack.width,
-                            "content_before_racks": object_rack.content_before_articles,
-                            "content_after_racks": object_rack.content_after_articles,
+                            "title": object_rack.title,
+                            "show_title": object_rack.show_title,
+                            "content_before_articles": object_rack.content_before_articles,
+                            "content_after_articles": object_rack.content_after_articles,
                             "hangers": hangers,
                         }
                     )

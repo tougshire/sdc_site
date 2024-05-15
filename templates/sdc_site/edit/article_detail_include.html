@@ -17,6 +17,8 @@
     <h3>Racks</h3>
     {% for hanger in object.hanger_set.all %}
       {% include 'touglates/detail_field.html' with label="rack" field=hanger.rack  %}
+      {% include 'touglates/detail_field.html' with label="expiration date" field=hanger.expiration_date  %}
+
     {% endfor %}
 
   </div>

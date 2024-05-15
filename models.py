@@ -241,11 +241,6 @@ class Article(models.Model):
         unique=True,
         help_text="The name or slug for use in URLs and within the application.  Note: Auto-generated value may not be unique. Uniquness and format are checked after submit",
     )
-    width = models.IntegerField(
-        "width",
-        default=1,
-        help_text="For section display, the width of the article in multiples of how big it is compared to the narrowest article in the section",
-    )
     iframe_document = models.ForeignKey(
         Document,
         blank=True,
@@ -269,6 +264,12 @@ class Article(models.Model):
         "content",
         blank=True,
         help_text="The content of the article",
+    )
+    content_classes = models.CharField(
+        "content classes",
+        max_length=50,
+        blank=True,
+        help_text="Extra classes to be applied to the content when displayed",
     )
     summary = models.TextField(
         "summary",
@@ -343,6 +344,12 @@ class Hanger(models.Model):
         "order",
         default=0,
         help_text="A number used to order the articles, overriding the default",
+    )
+    expiration_date = models.DateField(
+        "expiration date",
+        blank=True,
+        null=True,
+        help_text="The date after which the article should no longer be displayed in the rack",
     )
 
     def __str__(self):

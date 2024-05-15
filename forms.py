@@ -29,7 +29,6 @@ class ArticleForm(ModelForm):
             "show_title",
             "author",
             "slug",
-            "width",
             "iframe_document",
             "iframe_src",
             "iframe_height",
@@ -63,6 +62,7 @@ class HangerForm(ModelForm):
             "rack",
             "article",
             "order",
+            "expiration_date",
         ]
         widgets = {
             "rack": TouglateRelatedSelect(
