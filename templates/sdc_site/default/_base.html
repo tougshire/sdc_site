@@ -3,24 +3,23 @@
 
 <html>
     <head>
-        {% if page %}
-            <meta property="og:title" content="{{ object.headline|safe  }}" />
+      <meta property="og:title" content="{{ object.headline|safe  }}" />
+      {% if object.featured_image %}
+          <meta property="og:image" content="{{ object.featured_image.imagefile.url  }}" />
+          <meta property="og:image:alt" content="{{ object.featured_image.alt_text  }}" />
+          <meta property="og:description" content="{{ object.summary }}" />
+      {% else %}
+          {% if 'keyed_head_lines' in sdc_site %}
+              {% if 'og_image' in sdc_site.keyed_head_lines %}
+                  {{ sdc_site.keyed_head_lines.og_image|safe  }}
+              {% endif %}
+              {% if 'og_image_alt' in sdc_site.keyed_head_lines %}
+                  {{ sdc_site.keyed_head_lines.og_image_alt|safe  }}
+              {% endif %}
+          {% endif %}
+      {% endif %}
 
-            {% if object.featured_image %}
-                <meta property="og:image" content="{{ object.featured_image.url  }}" />
-                <meta property="og:image:alt" content="{{ object.featured_image.alt_text  }}" />
-                <meta property="og:description" content="{{ object.summary }}" />
-            {% else %}
-                {% if 'keyed_head_lines' in sdc_site %}
-                    {% if 'og_image' in sdc_site.keyed_head_lines %}
-                        {{ sdc_site.keyed_head_lines.og_image|safe  }}
-                    {% endif %}
-                    {% if 'og_image_alt' in sdc_site.keyed_head_lines %}
-                        {{ sdc_site.keyed_head_lines.og_image_alt|safe  }}
-                    {% endif %}
-                {% endif %}
-            {% endif %}
-        {% endif %}
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ sdc_site.SITE_NAME }}</title>
         <link rel="stylesheet" href="{% static sdc_site.STATIC_DIR|add:'/sdc_site.css' %}">

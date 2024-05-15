@@ -37,6 +37,7 @@ class ArticleForm(ModelForm):
             "if_summary_blank",
             "publish_date",
             "display",
+            "featured_image",
         ]
 
         widgets = {

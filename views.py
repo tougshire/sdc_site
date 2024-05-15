@@ -500,6 +500,7 @@ class ArticleView(DetailView):
             "iframe_document": context_data["object"].iframe_document,
             "iframe_src": context_data["object"].iframe_src,
             "iframe_height": context_data["object"].iframe_height,
+            "featured_image": context_data["object"].featured_image,
         }
         context_data["article"] = article
         context_data["object"] = article
